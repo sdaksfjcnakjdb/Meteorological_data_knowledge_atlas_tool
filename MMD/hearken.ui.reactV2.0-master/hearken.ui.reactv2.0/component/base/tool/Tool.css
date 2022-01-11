@@ -1,0 +1,202 @@
+body{
+    text-align: center;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+.drawerInner{
+    margin: 0 auto;
+}
+.x6-graph-scroller{
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+.buttonList{
+    position: fixed;
+    top: 2%;
+    left: 40%;
+}
+
+.title{
+    /* background-color: bisque; */
+    height: 50px;
+    font-size:large;
+    color:rgb(255, 255, 255);
+    width: 300px;
+    text-align:center;
+    display: inline-block;
+    margin-right: 750px;
+    margin-top: 10px;
+}
+.text{
+    font-size: 25px;
+    margin-left: -40px;
+}
+#button{
+    margin: auto;
+    margin-right: 15px;
+    height: 30px;
+    width: 100px;
+    font-size: 15px;
+    text-align: center;
+}
+#lang{
+    margin-right: 50px;
+    height: 40px;
+    font-size: 25px;
+    width: 200px;
+    text-align: center;
+    margin-top: 10px;
+}
+.img{
+    width: 45px;
+    height: 45px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.topTitle{
+    background-color: rgb(15, 84, 163);
+    height: 60px;
+    display: flex;
+    width: 1920px;
+}
+#fileReadInput{
+    background-color: rgb(255, 255, 255);
+    width: 200px;
+    /* display: none; */
+}
+#input{
+    width: 150px;
+}
+.tips{
+    display: inline-block;
+    margin-left: 20px;
+}
+.map{
+    height: 100% !important;
+    width: 100% !important;
+}
+#G6 {
+    display: none;
+}
+.map #container{
+    margin: 0 auto;
+}
+
+.searchInput{
+    padding: 15px;
+}
+
+.pagination{
+    position: absolute;
+    top: 94%;
+    left: 15%;
+}
+
+.topTitle .ant-btn-primary{
+    background-color: #ffff;
+    color: black;
+    padding-top: 6px;
+    width: 120px;
+    margin-right: 20px;
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 35px;      
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+
+.graphname{
+    display: none;
+    background-color: forestgreen;
+    margin-right: 1900px;
+}
+
+#saveGraph{
+    display: inline-block;
+    position: absolute;
+    margin-top: 700px;
+    background-color: rgb(15, 84, 163);
+    width: 150px;
+    height: 50px;
+    color:floralwhite;
+    font-size: 20px;
+    text-align: center;
+    margin-left: 120px;
+    float: left;
+    z-index: 100;
+}
+
+#graphname{
+    position: absolute;
+    width: 300px;
+    font-size: 20px;
+    text-align: center;
+    margin-left: 50px;
+    height: 50px;
+    margin-top: 600px;
+    float: left;
+    z-index: 99;
+}
+
+rect{
+    fill:#0000;
+}
+
+.x6-edge-tool-editor{
+    width: 30px;
+    display: block;
+}
+
+.addList .ant-list-item{
+    background-color:aquamarine;
+
+}
+
+.deleteList .ant-list-item{
+    background-color:red;
+
+}
+.ant-input{
+    width: 300px;
+    margin-bottom: 20px;
+}
+.ant-list-item-meta-title{
+    margin-bottom: 0px;
+}
+
+#addNode{
+    margin-top: 200px;
+    display: none;
+    position: absolute;
+    margin-top: 200px;
+    background-color: #0f54a3;
+    width: 150px;
+    height: 50px;
+    color: floralwhite;
+    font-size: 20px;
+    text-align: center;
+    margin-left: 120px;
+    float: left;
+    z-index: 100;
+}
+
+#graphFind{
+    background-color: aqua;
+}
+.ant-select{
+    margin-right: 50px;
+    height: 40px;
+    font-size: 25px;
+    width: 200px;
+    text-align: center;
+    margin-top: 10px;
+}
+.ant-select-selector{
+    height: 43px!important;
+}
+
+.ant-select-selection-item{
+    margin-top: 4px!important;
+}

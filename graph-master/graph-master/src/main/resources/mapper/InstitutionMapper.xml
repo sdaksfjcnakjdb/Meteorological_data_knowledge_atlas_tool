@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xbstar.graph.dao.InstitutionMapper">
+
+  <select id="findById"  resultType="Institution">
+    SELECT
+      institution_name,principal,address
+    FROM
+        institution
+    where id =  #{institution_id}
+  </select>
+
+  <select id="findAllInstitution" resultType="Institution">
+	  	select
+	  		id, institution_name
+	  	from
+	  		institution
+	</select>
+
+</mapper>

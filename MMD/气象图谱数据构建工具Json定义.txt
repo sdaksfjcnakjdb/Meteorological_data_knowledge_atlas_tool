@@ -1,0 +1,20 @@
+气象图谱数据构建工具Json定义：
+1.节点Json:
+[{
+    "ID":1,
+    "Group":"C_ADMINAREA"    //导入数据的表
+    "NodeName":"行政区",	//显示名称
+    "Xcoordinate":"10",		//坐标
+    "Ycoordinate":"100"		//坐标
+}]
+
+注：1.Group为导入表的名称，节点的颜色用所属Group来区分，在后端不做记录
+       2.节点的大小由一个节点关联的关系数决定，在前端绘图的时候做计算
+
+2.节点Json
+[{
+    "StartNodeID":1
+    "EndNodeID":2
+    "Relationship_id":100 //关系id （自增）
+    "Relationship_type":"关联" //名称
+}]

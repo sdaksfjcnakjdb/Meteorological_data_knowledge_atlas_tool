@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.mvn\\wrapper",
+    "\\src\\main",
+    "\\src\\main\\resources",
+    "\\src\\main\\resources\\static",
+    "\\src\\main\\resources\\static\\css",
+    "\\src\\main\\resources\\static\\data",
+    "\\src\\main\\resources\\static\\images",
+    "\\src\\main\\resources\\static\\js",
+    "\\target"
+  ],
+  "SelectedNode": "\\target\\classes\\static\\js\\drawl.js",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,0 +1,9 @@
+﻿{
+  "name": "",
+  "version": "0.0.0",
+  "description": "元数据可视化处理",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  }
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xbstar.graph.dao.PersonMapper">
+
+
+
+  <select id="findAll" resultType="Person">
+		select
+			pb.id, pb.name
+		from
+			person_base pb
+		order by
+			id asc
+		limit 100
+	</select>
+
+
+  <!-- 	<select id="findAll"  resultType="Person">
+      SELECT
+          p.id,pb.name
+      FROM
+          person p
+      LEFT JOIN person_base pb on p.person_base_id = pb.id
+      LIMIT 100
+    </select>	 -->
+
+
+  <select id="findById" resultType="Person">
+    SELECT
+	  pb.name,
+      pb.address,
+      pb.telephone,
+      pb.birthday,
+      pb.identity,
+      i.institution_name,
+      i.id as institution_id
+  FROM
+      person p
+  LEFT JOIN person_base pb ON p.person_base_id = pb.id
+  LEFT JOIN institution i ON p.institution_id = i.id
+  where p.id = #{id}
+  </select>
+
+
+
+
+
+  <!--
+<select id="findById" resultType="Person">
+  SELECT
+    pb.name,
+    pb.address,
+    pb.telephone,
+    pb.birthday,
+    pb.identity,
+    i.institution_name,
+    i.id as institution_id
+FROM
+    person p
+LEFT JOIN person_base pb ON p.person_base_id = pb.id
+LEFT JOIN institution i ON p.institution_id = i.id
+where p.id = #{id}
+</select> -->
+
+
+</mapper>

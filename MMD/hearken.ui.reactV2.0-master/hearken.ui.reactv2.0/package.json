@@ -1,0 +1,53 @@
+{
+  "name": "hearken.ui.reactv2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --inline --hot --config webpack.config-test.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ant-design/compatible": "^1.0.8",
+    "@ant-design/icons": "^4.5.0",
+    "@antv/g6": "^4.3.11",
+    "@antv/x6": "^1.28.1",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "add": "^2.0.6",
+    "antd": "^4.11.2",
+    "babel-loader": "^8.2.2",
+    "braft-editor": "^2.3.9",
+    "classnames": "^2.2.6",
+    "create-react-class": "^15.7.0",
+    "css-loader": "^3.4.2",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^6.2.0",
+    "insert-css": "^2.0.0",
+    "json-loader": "^0.5.7",
+    "less": "^4.1.0",
+    "less-loader": "^7.3.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dnd": "^14.0.4",
+    "react-dnd-html5-backend": "^14.0.2",
+    "react-dom": "^17.0.1",
+    "react-resizable": "^1.11.0",
+    "reqwest": "^2.0.5",
+    "style-loader": "^2.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2",
+    "xlsjs": "^1.0.1",
+    "yarn": "^1.22.17"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.14.5"
+  }
+}

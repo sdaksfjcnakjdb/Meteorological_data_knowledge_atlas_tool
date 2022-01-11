@@ -1,0 +1,16 @@
+.form {
+	:global {
+		
+		.ant-form-item {
+			margin-right: 0px;
+		}
+	}
+}
+:global {
+	.ant-form-item-control-input-content {
+		display: flex;
+	}	
+	.ant-form-item-control-input{
+		min-height: 37px !important;
+	}
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>hearken.ui.reactV2</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.sunsheen.jfids.studio.xhtml.SSProjectBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>com.sunsheen.jfids.studio.xhtml.SSProjectNature</nature>
+	</natures>
+</projectDescription>

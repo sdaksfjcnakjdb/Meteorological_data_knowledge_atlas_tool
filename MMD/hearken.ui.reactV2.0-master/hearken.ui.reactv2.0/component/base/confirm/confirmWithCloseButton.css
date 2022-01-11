@@ -1,0 +1,30 @@
+.confirmWithCloseButton {
+	:global {
+		
+		.ant-modal-header {
+			padding: 0px;
+		}
+		
+		.ant-modal-title {
+			display: none;
+		}
+		
+		.ant-modal-body {
+			padding: 32px 32px 24px;
+		}
+		
+		.ant-modal-confirm-body>.anticon {
+			color: #faad14;
+		}
+		
+		.ant-modal-confirm-btns {
+			float: right;
+			margin-top: 24px;
+		}
+		
+		.ant-modal-confirm-btns button+button {
+			margin-bottom: 0;
+			margin-left: 8px;
+		}
+	}
+}

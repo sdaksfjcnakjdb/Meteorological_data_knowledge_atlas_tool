@@ -1,0 +1,7 @@
+.space {
+	:global {
+		.ant-space-item-split {
+			width: 100%;
+		}
+	}
+}

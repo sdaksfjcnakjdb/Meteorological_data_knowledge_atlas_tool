@@ -1,0 +1,4 @@
+/*所有构件的默认容器*/
+.container{
+	display:inline-block;
+}

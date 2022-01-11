@@ -1,0 +1,49 @@
+.hiddenColumn {
+			display:none
+}
+.antTableSquence {
+	border-right: 1px solid #e8e8e8;
+	background: #fafafa;
+	text-align: center !important;
+}
+/*.grid {
+  :global {
+    .ant-table-thead>tr>th,
+    .ant-table-tbody>tr>td,
+    .ant-table-thead>tr.ant-table-row-hover>td,
+    .ant-table-tbody>tr.ant-table-row-hover>td,
+    .ant-table-thead>tr:hover>td,
+    .ant-table-tbody>tr:hover>td {
+      background-color: transparent;
+      color: #fff;
+    }
+    .ant-table-thead>tr>th {
+      border-bottom-color: rgba(255, 255, 255, .5);
+    }
+    .ant-table-tbody>tr>td {
+      border-bottom-color: transparent;
+    }
+    .ant-pagination-item a {
+    	color: #fff;
+    }
+    .ant-pagination-item {
+    	border-radius: 0;
+    }
+    .ant-pagination-item.ant-pagination-item-active a {
+    	color: #666;
+    }
+    .ant-pagination-prev a, .ant-pagination-next a {
+    	color: #fff;
+    }
+    .ant-select-selection {
+    	border-radius: 0;
+    }
+    .ant-pagination-options-quick-jumper input {
+    	border-radius: 0;
+    }
+    .ant-pagination {
+    	color: #fff;
+    	padding-right: 8px;
+    }
+  }
+}*/
