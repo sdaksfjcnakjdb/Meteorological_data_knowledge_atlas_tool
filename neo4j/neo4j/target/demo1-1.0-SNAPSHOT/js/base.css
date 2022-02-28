@@ -182,5 +182,53 @@ rect {
 .ant-select-selection-item {
   margin-top: 4px!important;
 }
+.add-attribute {
+  position: absolute;
+  margin-left: 20%;
+  margin-top: -27%;
+}
+.show-attribute {
+  position: absolute;
+  margin-left: 20%;
+  margin-top: -27%;
+}
+.addlist {
+  width: 200px;
+  height: 50px;
+  position: absolute;
+  border: #0f54a3;
+  margin: 20%;
+  margin-top: -70%;
+  z-index: 120;
+}
+.add .ant-modal-wrap {
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  border: #0f54a3;
+  margin: 20%;
+  margin-left: 35%;
+  z-index: 120;
+}
+.add {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.ok {
+  color: #fff;
+  background: #1890ff;
+  border-color: #1890ff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  margin: 20%;
+  margin-right: 0%;
+  width: 40%;
+  height: 4%;
+}
+.cancel {
+  width: 40%;
+  height: 4%;
+}
 
 /*# sourceMappingURL=base.css.map*/

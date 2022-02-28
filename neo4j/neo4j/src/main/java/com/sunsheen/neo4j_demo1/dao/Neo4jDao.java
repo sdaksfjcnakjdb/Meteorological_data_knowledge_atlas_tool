@@ -22,6 +22,7 @@ public  class Neo4jDao{
     public void creatNode(String labelName, JSONObject node){
         System.out.println ("node:"+node);
         Set<String> sets = node.keySet ();
+        //动态生成语句，实现多熟悉注入
         String cypher="CREATE (n:"+labelName+"{";
         for (String set:sets){
             cypher += "',"+set+":'"+node.getString (set);
@@ -36,6 +37,7 @@ public  class Neo4jDao{
             StatementResult result = session.run(cypher);
         }
     }
+
 
     //添加关系
     public void creatLink(String labelName, String source, String type, String target){

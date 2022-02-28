@@ -29,6 +29,11 @@
 </div>
 <%--<div id="G6"></div>--%>
 <div id="editor"></div>
+
+<div class = "add-attribute"></div>
+<div class = "show-attribute"></div>
+
+
 <link href="js/antd.css" rel="stylesheet">
 </link>
 <link href="js/base.css" rel="stylesheet">
@@ -40,8 +45,6 @@
 <script src="js/antd.js"></script>
 <script src="js/base.js"></script>
 <script src="js/browser.js"></script>
-
-
 <%--<script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script>--%>
 <%--<script src="https://cdn.bootcdn.net/ajax/libs/jschardet/3.0.0/jschardet.min.js"></script>--%>
 <%--<script src="https://cdn.bootcdn.net/ajax/libs/PapaParse/5.3.1/papaparse.js"></script>--%>

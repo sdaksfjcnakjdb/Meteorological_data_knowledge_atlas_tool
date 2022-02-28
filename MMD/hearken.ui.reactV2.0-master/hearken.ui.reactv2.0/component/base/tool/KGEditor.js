@@ -3,11 +3,14 @@ import { Graph, Edge, EdgeView, Shape } from '@antv/x6'
 import { FileSearchOutlined } from '@ant-design/icons';
 import { useDrop } from 'react-dnd';
 import { grayScale } from '@antv/x6/lib/registry/filter/gray-scale';
+import { add } from 'lodash';
+import { func } from 'prop-types';
+import { Drawer as AntdDrawer, Modal, Button as AntdButton, Input, List as AntdList, Typography, Pagination, Upload, Divider, Button } from 'antd';
 
 
 
 export default function Index(props) {
-  const { kgRef, data ,remove } = props
+  const { kgRef, data, remove } = props
   const ref = useRef(null)
   const graph = useRef(null)
   useEffect(() => {
@@ -31,6 +34,9 @@ export default function Index(props) {
         height: 50,  // Number，可选，节点大小的 height 值
         label: item.component.NodeName, // String，节点标签
         shape: 'ellipse',
+        ohter: {
+          ohterList: "",
+        },
         className: item.component.NodeName,
         attrs: {
           body: {
@@ -56,8 +62,8 @@ export default function Index(props) {
 
   useImperativeHandle(kgRef, () => ({
     //就是暴露给父组件的方法
-    addNode: (name,id) => {
-      addNode(name,id);
+    addNode: (ohter, name, id) => {
+      addNode(ohter, name, id);
     },
     consoleSave: () => {
       consoleSave();
@@ -71,12 +77,13 @@ export default function Index(props) {
     cleangraph: () => {
       cleangraph()
     },
-    moveCenter:(data)=>{
+    moveCenter: (data) => {
       moveCenter(data);
     }
   }));
 
   const init = () => {
+    var initnode;
     graph.current = new Graph({
       container: document.getElementById("container"),
       width: 1920,
@@ -155,10 +162,222 @@ export default function Index(props) {
       },
       )
     })
+
+
     /*点击居中*/
-    graph.current.on('node:click',({ node }) => {
-      graph.current.scrollToPoint(node.store.data.position.x, node.store.data.position.y,  { animation: { duration: 400 }})
+    graph.current.on('node:click', ({ node }) => {
+      //节点附加属性位置。
+      // node.store.data.ohter
+      graph.current.scrollToPoint(node.store.data.position.x, node.store.data.position.y, { animation: { duration: 400 } })
     })
+
+    /*右键添加附加属性 */
+    graph.current.on('node:contextmenu', ({ node }) => {
+      contextmenu(node);
+    })
+
+    graph.current.on('node:mouseenter', ({ node }) => {
+      mouseenter(node);
+    })
+
+    graph.current.on('node:mouseleave', ({ node }) => {
+      mouseleave();
+    })
+
+    //鼠标leave事件
+    function mouseleave() {
+      ReactDOM.render(
+        <>
+        </>,
+        document.getElementsByClassName("show-attribute")[0]
+      );
+    }
+
+    //鼠标enter事件
+    function mouseenter(node) {
+      var name = node.store.data.className;
+      var id = node.store.data.id;
+      var ohter = node.store.data.ohter;
+      var lists = ohter.ohterList.split('&');
+      initnode = node;
+      var addlist = document.createElement("div");
+
+      //展示附属属性
+      function NumberList(props) {
+        const lists = props.lists;
+        try {
+          var number = lists.indexOf('');
+          lists.splice(number,number+1);
+        } catch { }
+        const listItems = lists.map((list) =>
+          <p> {list}: {ohter[list]}</p>
+        );
+        return (
+          <div>{listItems}</div>
+        );
+      }
+      ReactDOM.render(
+        <><div class="addlist">
+          <div>
+            <p>名称：{name}</p>
+            <p>编号：{id}</p>
+          </div>
+          <NumberList lists={lists} />
+        </div>
+        </>,
+        document.getElementsByClassName("show-attribute")[0]
+      );
+    }
+
+    //操作属性主方法
+    function contextmenu(node) {
+      // var name = node.store.data.className;
+      // var id = node.store.data.id;
+      // var ohter = node.store.data.ohter;
+      // //为外部节点赋值
+      initnode = node;
+      // var addlist = document.createElement("div");
+
+
+      //基本信息展示页面。已废用
+      // var name_id = document.createElement("div");
+      // var name_name_p = document.createElement("p");
+      // var name_id_p = document.createElement("p");
+      // name_name_p.innerHTML = "名称：" + name;
+      // name_id_p.innerHTML = "编号：" + id;
+      // name_id.appendChild(name_name_p);
+      // name_id.appendChild(name_id_p);
+      // addlist.appendChild(name_id);
+
+
+      // //附加属性展示 已废用
+      // var lists = ohter.ohterList.split('&');
+      // for (var list in lists) {
+      //   if (lists[list] != '') {
+      //     var addlistT = document.createElement("div");
+      //     var addlist_id = document.createElement("p");
+      //     addlist_id.innerHTML = lists[list] + ": " + ohter[lists[list]];
+      //     addlistT.appendChild(addlist_id);
+      //     addlist.appendChild(addlistT);
+      //   }
+      // }
+      // addlist.setAttribute("class", "addlist");
+
+
+      //节点增加操作 ,已废用
+      // var addTool = document.createElement("div");
+      // var title = document.createElement("p");
+      // title.innerHTML = "添加属性名称：";
+      // addTool.appendChild(title);
+      // addTool.setAttribute("class", "ant-modal-wrap");
+      // var inputname = document.createElement("input");
+      // var inputid = document.createElement("input");
+      // var p = document.createElement("p");
+      // var ok = document.createElement("button");
+      // var cancel = document.createElement("button");
+      // inputid.setAttribute("class", "inputid");
+      // inputname.setAttribute("class", "inputname");
+      // ok.textContent = "确定";
+      // cancel.textContent = "取消";
+      // ok.setAttribute("class", "ok");
+      // cancel.setAttribute("class", "cancel");
+      // p.innerHTML = "添加属性内容：";
+      // addTool.appendChild(inputid);
+      // addTool.appendChild(p);
+      // addTool.appendChild(inputname);
+      // addTool.appendChild(cancel);
+      // addTool.appendChild(ok);
+
+
+
+      // //整合  已废用
+      // var all = document.createElement("div");
+      // all.appendChild(addlist);
+      // all.appendChild(addTool);
+      // all.setAttribute("class", "add");
+      // document.getElementsByClassName("topTitle")[0].appendChild(all);
+
+      //调用方法执行节点属性添加
+      // addNode("qwe","qwe",node);
+
+      //展示附属属性
+      // function NumberList(props) {
+      //   const lists = props.lists;
+      //   const listItems = lists.map((list) =>
+      //      <p> {list}: {ohter[list]}</p>
+      //   );
+      //   return (
+      //     <div>{listItems}</div>
+      //   );
+      // }
+
+      //附加属性增加操作
+      const AddAttribute = () => {
+        const [isModalVisible, setIsModalVisible] = useState(true);
+
+        const handleOk = () => {
+          var name, inner;
+          name = document.getElementById("name").value;
+          inner = document.getElementById("inner").value;
+          if (name != "" && inner != "") {
+            addNode(name, inner, initnode);
+          }
+          else {
+            alert("请输入正确的节点属性");
+          }
+          setIsModalVisible(false);
+        };
+        const handleCancel = () => {
+          setIsModalVisible(false);
+        };
+
+        return (
+          <>
+            <Modal title="节点添加属性" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+              <p>属性名称：</p>
+              <Input placeholder="name" id="name" />
+              <p>属性内容：</p>
+              <Input placeholder="inner" id="inner" />
+            </Modal>
+          </>
+        );
+      };
+      ReactDOM.render(
+        <>
+          <AddAttribute />
+        </>,
+        document.getElementsByClassName("add-attribute")[0]
+      );
+    }
+
+    //为画布中节点添加属性
+    function addNode(name, inner, node) {
+      node.store.data.ohter[name] = inner;
+      node.store.data.ohter.ohterList += "&" + name;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*删除边*/
     graph.current.on('edge:contextmenu', ({ edge }) => {
@@ -178,7 +397,7 @@ export default function Index(props) {
 
 
     //删除节点相应事件*/
-    graph.current.on('node:removed',({cell}) =>{
+    graph.current.on('node:removed', ({ cell }) => {
       console.log("cell");
       console.log(cell.id);
       remove(cell.id);
@@ -203,16 +422,18 @@ export default function Index(props) {
 
 
   /*新增节点*/
-  const addNode = (name,id) => {
+  const addNode = (ohter, name, id) => {
     console.log(kgRef)
     graph.current.addNode({
       id: id, // String，可选，节点的唯一标识
       x: 1000,       // Number，必选，节点位置的 x 值
       y: 500,       // Number，必选，节点位置的 y 值
-      width: 50,   // Number，可选，节点大小的 width 值
-      height: 50,  // Number，可选，节点大小的 height 值
+      width: 70,   // Number，可选，节点大小的 width 值
+      height: 70,  // Number，可选，节点大小的 height 值
       label: name, // String，节点标签
       shape: 'ellipse',
+      ohter: ohter,
+      className: name,
       attrs: {
         body: {
           fill: 'aquamarine',
@@ -225,24 +446,24 @@ export default function Index(props) {
   }
 
   //点击抽屉居中功能
-  const moveCenter =(data) =>{
+  const moveCenter = (data) => {
     // console.log("KGE");
-    var x = 0,y = 0;
+    var x = 0, y = 0;
     var cells = graph.current.toJSON().cells;
-    for(var i= 0;i<cells.length;i++){
-      if(cells[i].id == data){
-          x = cells[i].position.x;
-          y = cells[i].position.y;
-          break;
+    for (var i = 0; i < cells.length; i++) {
+      if (cells[i].id == data) {
+        x = cells[i].position.x;
+        y = cells[i].position.y;
+        break;
       }
     }
-    graph.current.scrollToPoint(x, y,  { animation: { duration: 400 }})
+    graph.current.scrollToPoint(x, y, { animation: { duration: 400 } })
   }
 
   //添加删除属性
   const addTool = (deletelist) => {
     var nodes = graph.current.getNodes();
-    for(var i = 0;i<nodes.length;i++){
+    for (var i = 0; i < nodes.length; i++) {
       // if(node[i].)
       nodes[i].removeTools();
     }
@@ -271,9 +492,9 @@ export default function Index(props) {
       else {
         // console.log(cells[i]);
         data[0].push(cells[i].id);
-        if(cells[i].attrs.text != undefined){
-        data[1].push(cells[i].attrs.text.text);
-        }else{
+        if (cells[i].attrs.text != undefined) {
+          data[1].push(cells[i].attrs.text.text);
+        } else {
           data[1].push('');
         }
       }
@@ -294,12 +515,13 @@ export default function Index(props) {
     var edges = [];
     var nodes = [];
     var name = document.getElementById("graphname").value;
-    if(name == ''){
+    if (name == '') {
       name = $('#lang').val();
     }
 
     var data = graph.current.toJSON().cells;
     for (var i = 0; i < data.length; i++) {
+      //边
       if (data[i].shape == 'edge') {
         var edge = {
           "source": data[i].source.cell,
@@ -310,11 +532,21 @@ export default function Index(props) {
         }
         edges.push(edge);
       }
+      //节点
       else {
-        nodes.push({
-          "comment": data[i].attrs.text.text.replace(/\n/g,""),
+        //纯粹节点，无附加属性
+        var node = {
+          "comment": data[i].attrs.text.text.replace(/\n/g, ""),
           "name": data[i].id,
-        })
+        }
+        //非纯粹节点，具有附加属性
+        if (data[i].ohter.ohterList != "&") {
+          var list = data[i].ohter.ohterList.split('&');
+          for (var ohter in list) {
+            node[list[ohter]] = data[i].ohter[list[ohter]];
+          }
+        }
+        nodes.push(node);
       }
     }
     var datas = {

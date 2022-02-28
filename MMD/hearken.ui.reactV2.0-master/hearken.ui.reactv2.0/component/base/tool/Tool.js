@@ -122,6 +122,7 @@ const Database = () => {
     );
 };
 
+
 const Find = () => {
     const find = () => {
         document.getElementsByClassName('graphname')[0].style.setProperty('display', 'none');//隐藏提交
@@ -152,8 +153,10 @@ const Creat = (props) => {
         setIsModalVisible(false);
         click(results)
         document.getElementsByClassName('top')[0].style.setProperty('display', 'none');//隐藏查询
-        $("input[name='name']")[0].value = "";
-        $("input[name='depth']")[0].value = "";
+
+        //暂时注释掉，切换到neo4j时取消注释！
+        // $("input[name='name']")[0].value = "";
+        // $("input[name='depth']")[0].value = "";
         document.getElementsByClassName('graphname')[0].style.setProperty('display', 'block')//显示提交
         document.getElementById('addNode').style.setProperty('display', 'inline-block')// 显示新增节点
         document.getElementById('graphCreat').style.setProperty('background-color', 'aqua');
@@ -259,11 +262,19 @@ const AddNode = (props) => {
     const handleOk = () => {
         var name = document.getElementById("name").value;
         var id = document.getElementById("id").value;
+        var between = "&";
+        var ohter = {}
+
+        ohter["类型"] = "降雨";
+        ohter["地点"] = "广西";
+        ohter["ohterList"] =  "类型" + between + "地点";
+
+
         if (name == "" || id == "") {
             alert("请输入节点信息！");
         } else {
             setIsModalVisible(false);
-            click(name, id);
+            click(ohter,name, id);
         }
     }
     const handleCancel = () => {
@@ -619,10 +630,10 @@ export default class Tool extends React.Component {
     }
 
 
-    addNode(name, id) {
+    addNode(ohter,name, id) {
         var _this = this
 
-        _this.ref.current.addNode(name, id);
+        _this.ref.current.addNode(ohter,name, id);
 
 
     }
