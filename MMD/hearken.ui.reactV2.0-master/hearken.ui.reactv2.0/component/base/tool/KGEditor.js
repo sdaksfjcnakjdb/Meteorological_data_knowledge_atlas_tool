@@ -6,6 +6,7 @@ import { grayScale } from '@antv/x6/lib/registry/filter/gray-scale';
 import { add } from 'lodash';
 import { func } from 'prop-types';
 import { Drawer as AntdDrawer, Modal, Button as AntdButton, Input, List as AntdList, Typography, Pagination, Upload, Divider, Button } from 'antd';
+import { render } from 'less';
 
 
 
@@ -173,16 +174,19 @@ export default function Index(props) {
 
     /*右键添加附加属性 */
     graph.current.on('node:contextmenu', ({ node }) => {
-      contextmenu(node);
+      // contextmenu(node);
+      UpdataAttribute(node);
     })
 
-    graph.current.on('node:mouseenter', ({ node }) => {
-      mouseenter(node);
-    })
+    // //鼠标进入事件
+    // graph.current.on('node:mouseenter', ({ node }) => {
+    //   mouseenter(node);
+    // })
 
-    graph.current.on('node:mouseleave', ({ node }) => {
-      mouseleave();
-    })
+    // //鼠标离开事件
+    // graph.current.on('node:mouseleave', ({ node }) => {
+    //   mouseleave();
+    // })
 
     //鼠标leave事件
     function mouseleave() {
@@ -198,7 +202,11 @@ export default function Index(props) {
       var name = node.store.data.className;
       var id = node.store.data.id;
       var ohter = node.store.data.ohter;
-      var lists = ohter.ohterList.split('&');
+      if (ohter.ohterList == '&') {
+        lists = [];
+      } else {
+        var lists = ohter.ohterList.split('&');
+      }
       initnode = node;
       var addlist = document.createElement("div");
 
@@ -207,7 +215,7 @@ export default function Index(props) {
         const lists = props.lists;
         try {
           var number = lists.indexOf('');
-          lists.splice(number,number+1);
+          lists.splice(number, number + 1);
         } catch { }
         const listItems = lists.map((list) =>
           <p> {list}: {ohter[list]}</p>
@@ -229,90 +237,10 @@ export default function Index(props) {
       );
     }
 
-    //操作属性主方法
-    function contextmenu(node) {
-      // var name = node.store.data.className;
-      // var id = node.store.data.id;
-      // var ohter = node.store.data.ohter;
-      // //为外部节点赋值
-      initnode = node;
-      // var addlist = document.createElement("div");
-
-
-      //基本信息展示页面。已废用
-      // var name_id = document.createElement("div");
-      // var name_name_p = document.createElement("p");
-      // var name_id_p = document.createElement("p");
-      // name_name_p.innerHTML = "名称：" + name;
-      // name_id_p.innerHTML = "编号：" + id;
-      // name_id.appendChild(name_name_p);
-      // name_id.appendChild(name_id_p);
-      // addlist.appendChild(name_id);
-
-
-      // //附加属性展示 已废用
-      // var lists = ohter.ohterList.split('&');
-      // for (var list in lists) {
-      //   if (lists[list] != '') {
-      //     var addlistT = document.createElement("div");
-      //     var addlist_id = document.createElement("p");
-      //     addlist_id.innerHTML = lists[list] + ": " + ohter[lists[list]];
-      //     addlistT.appendChild(addlist_id);
-      //     addlist.appendChild(addlistT);
-      //   }
-      // }
-      // addlist.setAttribute("class", "addlist");
-
-
-      //节点增加操作 ,已废用
-      // var addTool = document.createElement("div");
-      // var title = document.createElement("p");
-      // title.innerHTML = "添加属性名称：";
-      // addTool.appendChild(title);
-      // addTool.setAttribute("class", "ant-modal-wrap");
-      // var inputname = document.createElement("input");
-      // var inputid = document.createElement("input");
-      // var p = document.createElement("p");
-      // var ok = document.createElement("button");
-      // var cancel = document.createElement("button");
-      // inputid.setAttribute("class", "inputid");
-      // inputname.setAttribute("class", "inputname");
-      // ok.textContent = "确定";
-      // cancel.textContent = "取消";
-      // ok.setAttribute("class", "ok");
-      // cancel.setAttribute("class", "cancel");
-      // p.innerHTML = "添加属性内容：";
-      // addTool.appendChild(inputid);
-      // addTool.appendChild(p);
-      // addTool.appendChild(inputname);
-      // addTool.appendChild(cancel);
-      // addTool.appendChild(ok);
-
-
-
-      // //整合  已废用
-      // var all = document.createElement("div");
-      // all.appendChild(addlist);
-      // all.appendChild(addTool);
-      // all.setAttribute("class", "add");
-      // document.getElementsByClassName("topTitle")[0].appendChild(all);
-
-      //调用方法执行节点属性添加
-      // addNode("qwe","qwe",node);
-
-      //展示附属属性
-      // function NumberList(props) {
-      //   const lists = props.lists;
-      //   const listItems = lists.map((list) =>
-      //      <p> {list}: {ohter[list]}</p>
-      //   );
-      //   return (
-      //     <div>{listItems}</div>
-      //   );
-      // }
-
-      //附加属性增加操作
-      const AddAttribute = () => {
+    //属性增加操作页面
+    function AddAttribute(initnode) {
+      //属性增加操作页面
+      const Attribute = () => {
         const [isModalVisible, setIsModalVisible] = useState(true);
 
         const handleOk = () => {
@@ -325,10 +253,10 @@ export default function Index(props) {
           else {
             alert("请输入正确的节点属性");
           }
-          setIsModalVisible(false);
+          UpdataAttribute(initnode);
         };
         const handleCancel = () => {
-          setIsModalVisible(false);
+          UpdataAttribute(initnode);
         };
 
         return (
@@ -342,18 +270,259 @@ export default function Index(props) {
           </>
         );
       };
+
       ReactDOM.render(
         <>
-          <AddAttribute />
+          <Attribute />
         </>,
         document.getElementsByClassName("add-attribute")[0]
       );
     }
 
+    //删除按钮DOM
+    function DeleteButton(props) {
+      const name = props.name;
+      var initnode = props.initnode;
+
+
+      const deleteAttribute = () => {
+        delete initnode.store.data.ohter[name]
+        var lists = initnode.store.data.ohter.ohterList.split('&');
+        var ohterList = "";
+        try {
+          var number = lists.indexOf(name);
+          lists.splice(number, number + 1);
+        } catch { }
+        lists.forEach(list => {
+          ohterList += list + "&";
+        });
+        initnode.store.data.ohter.ohterList = ohterList;
+        document.getElementById(name).remove();
+      }
+      return (
+        <>
+          <Button danger id={name} size="large" block onClick={deleteAttribute}>删除 {name}  属性</Button>
+          <div id="buttonDiv"></div>
+          <br />
+        </>
+      );
+
+    }
+
+    //属性删除操作页面
+    function DeleteAttribute(initnode) {
+
+      const Attribute = () => {
+        const [isModalVisible, setIsModalVisible] = useState(true);
+
+        if (initnode.store.data.ohter.ohterList == "&") {
+          lists = [];
+        } else {
+          var lists = initnode.store.data.ohter.ohterList.split('&');
+          var number = lists.indexOf('');
+          try {
+            lists.splice(number, number + 1);
+          } catch { }
+        }
+        var listItems = lists.map((list) =>
+          <DeleteButton name={list} initnode={initnode} onClick={handleOk} id="deleteAttribute" />
+        );
+        if (lists.length == 0) {
+          listItems = <p>该节点不存在附属属性</p>
+        }
+
+        const handleOk = () => {
+          setIsModalVisible(false);
+        };
+
+        const handleCancel = () => {
+          setIsModalVisible(false);
+        };
+
+        return (
+          <>
+            <Modal title="节点删除属性" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+              {listItems}
+            </Modal>
+          </>
+        );
+      };
+      ReactDOM.render(
+        <>
+          <Attribute />
+        </>,
+        document.getElementsByClassName("add-attribute")[0]
+      );
+    }
+
+//修改DOM
+    function UpdataNode(props) {
+      const name = props.name;
+      const inner = props.inner;
+      var initnode = props.initnode;
+
+//修改节点属性
+      function updataNode() {
+        var name, inner;
+        name = document.getElementById("name").innerHTML;
+        inner = document.getElementById("updatanodeinner").value;
+        initnode.store.data.ohter[name] = inner;
+        alert("节点属性"+name+"修改成功!");
+      }
+
+      //删除节点属性
+      const deleteAttribute = () => {
+        delete initnode.store.data.ohter[name]
+        var lists = initnode.store.data.ohter.ohterList.split('&');
+        var ohterList = "";
+        try {
+          var number = lists.indexOf(name);
+          lists.splice(number, number + 1);
+        } catch { }
+        lists.forEach(list => {
+          ohterList += list + "&";
+        });
+        initnode.store.data.ohter.ohterList = ohterList;
+        document.getElementById(name).remove();
+      }
+      return (
+        <>
+          <div id={name}  class = "updatadiv">
+            <h3 className='updatanodename' id="name">{name}</h3>
+            <Input placeholder={inner} id="updatanodeinner" />
+            <Button onClick={updataNode}>修改属性</Button>
+            <Button danger onClick={deleteAttribute}>删除属性</Button>
+          </div>
+        </>
+      );
+    }
+
+    //属性修改页面
+    function UpdataAttribute(initnode) {
+      //属性修改操作页面
+      const Attribute = () => {
+        const [isModalVisible, setIsModalVisible] = useState(true);
+
+        if (initnode.store.data.ohter.ohterList == "&") {
+          lists = [];
+        } else {
+          var lists = initnode.store.data.ohter.ohterList.split('&');
+          var number = lists.indexOf('');
+          try {
+            lists.splice(number, number + 1);
+          } catch { }
+        }
+        var listItems = lists.map((list) =>
+          <UpdataNode name={list} initnode={initnode} onClick={handleOk} inner={initnode.store.data.ohter[list]} id="UpdataNode" />
+        );
+        if (lists.length == 0) {
+          listItems = <p>该节点不存在附属属性</p>
+        }
+
+        const handleOk = () => {
+          setIsModalVisible(false);
+        };
+        const handleCancel = () => {
+          setIsModalVisible(false);
+        };
+        const addAttribute = () => {
+          AddAttribute(initnode);
+        }
+
+        const deleteNode = () => {
+          initnode.addTools(
+            [
+              {
+                name: 'button-remove',
+              },
+            ],
+          )
+          setIsModalVisible(false);
+        }
+        return (
+          <>
+            <Modal title="修改节点属性" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+              {listItems}
+              <Button id="addAttribute" size="large" onClick={addAttribute}>新增节点</Button >
+              <Button id="deleteAttribute" size="large" onClick={deleteNode}>删除节点</Button >
+            </Modal>
+          </>
+        );
+      };
+
+      ReactDOM.render(
+        <>
+          <Attribute />
+        </>,
+        document.getElementsByClassName("add-attribute")[0]
+      );
+    }
+
+
+    //操作属性主方法
+    // function contextmenu(node) {
+
+    //   initnode = node;
+
+    //   const Attribute = () => {
+    //     const [isModalVisible, setIsModalVisible] = useState(true);
+
+    //     const addAttribute = () => {
+    //       AddAttribute(initnode);
+    //     }
+
+    //     const updateAttribute = () => {
+    //       UpdataAttribute(initnode);
+    //     }
+
+    //     const deleteAttribute = () => {
+    //       DeleteAttribute(initnode);
+    //     }
+
+    //     const deleteNode = () => {
+    //       initnode.addTools(
+    //         [
+    //           {
+    //             name: 'button-remove',
+    //           },
+    //         ],
+    //       )
+    //       setIsModalVisible(false);
+    //     }
+
+    //     const handleCancel = () => {
+    //       setIsModalVisible(false);
+    //     };
+    //     return (
+    //       <>
+    //         <Modal title="Attribute" visible={isModalVisible} onOk={handleCancel} onCancel={handleCancel}>
+    //           <Button id="addAttribute" size="large" onClick={addAttribute}>新增节点</Button >
+    //           <br />
+    //           <Button id="updateAttribute" size="large" onClick={updateAttribute}>修改节点</Button >
+    //           <br />
+    //           <Button id="deleteAttribute" size="large" onClick={deleteAttribute}>删除节点属性</Button >
+    //           <br />
+    //           <Button id="deleteAttribute" size="large" onClick={deleteNode}>删除节点</Button >
+    //         </Modal>
+    //       </>
+    //     );
+    //   }
+    //   ReactDOM.render(
+    //     <>
+    //       <Attribute />
+    //     </>,
+    //     document.getElementsByClassName("add-attribute")[0]
+    //   );
+    // }
+
     //为画布中节点添加属性
     function addNode(name, inner, node) {
       node.store.data.ohter[name] = inner;
-      node.store.data.ohter.ohterList += "&" + name;
+      if (node.store.data.ohter.ohterList == "&") {
+        node.store.data.ohter.ohterList += name;
+      } else {
+        node.store.data.ohter.ohterList += "&" + name;
+      }
     }
 
 

@@ -265,9 +265,6 @@ const AddNode = (props) => {
         var between = "&";
         var ohter = {}
 
-        ohter["类型"] = "降雨";
-        ohter["地点"] = "广西";
-        ohter["ohterList"] =  "类型" + between + "地点";
 
 
         if (name == "" || id == "") {
