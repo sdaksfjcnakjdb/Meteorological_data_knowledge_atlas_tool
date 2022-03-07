@@ -22,7 +22,7 @@ public  class Neo4jDao{
     public void creatNode(String labelName, JSONObject node){
         System.out.println ("node:"+node);
         Set<String> sets = node.keySet ();
-        //动态生成语句，实现多熟悉注入
+        //动态生成语句，实现多属性注入
         String cypher="CREATE (n:"+labelName+"{";
         for (String set:sets){
             cypher += "',"+set+":'"+node.getString (set);
@@ -47,6 +47,16 @@ public  class Neo4jDao{
             StatementResult result = session.run(cypher);
         }
     }
+
+
+
+    //删除节点
+    public void deleteNode(String labelName, JSONObject node) {
+        String cypher = "match(node{name:'";
+        cypher += node.getString ("name");
+        cypher +="'}) delete node";
+    }
+    //删除关系
 
     //根据name和depth查lable
     public JSONObject queryByNameAndDepth(String name, Integer depth,String label){

@@ -211,8 +211,9 @@ const Change = (props) => {
         setIsModalVisible(false);
         click(results)
         document.getElementsByClassName('top')[0].style.setProperty('display', 'none');//隐藏查询
-        $("input[name='name']")[0].value = "";
-        $("input[name='depth']")[0].value = "";
+        //暂时注释掉，切换到neo4j时取消注释！
+        // $("input[name='name']")[0].value = "";
+        // $("input[name='depth']")[0].value = "";
         document.getElementsByClassName('graphname')[0].style.setProperty('display', 'block')//显示提交
         document.getElementById('graphname').style.setProperty('display', 'none')//隐藏输入框
         document.getElementById('addNode').style.setProperty('display', 'inline-block')// 显示新增节点
@@ -296,8 +297,9 @@ const Space = (props) => {
     const { space } = props;
     const { Option } = Select;
     const spaces =() =>{
-        $("input[name='name']")[0].value = "";
-        $("input[name='depth']")[0].value = "";
+        //暂时注释掉，切换到neo4j时取消注释！
+        // $("input[name='name']")[0].value = "";
+        // $("input[name='depth']")[0].value = "";
         space();
     }
     return (

@@ -95,6 +95,10 @@ export default function Index(props) {
         pageBreak: true,
         pannable: true,
       },
+      panning: {
+        enabled: true,
+        eventTypes: ['leftMouseDown', 'rightMouseDown', 'mouseWheel']
+      },
       keyboard: true,//快捷键
       snapline: true,
       // interacting: true,
@@ -174,7 +178,6 @@ export default function Index(props) {
 
     /*右键添加附加属性 */
     graph.current.on('node:contextmenu', ({ node }) => {
-      // contextmenu(node);
       UpdataAttribute(node);
     })
 
@@ -237,6 +240,7 @@ export default function Index(props) {
       );
     }
 
+
     //属性增加操作页面
     function AddAttribute(initnode) {
       //属性增加操作页面
@@ -259,6 +263,14 @@ export default function Index(props) {
           UpdataAttribute(initnode);
         };
 
+        function addNode(name, inner, node) {
+          node.store.data.ohter[name] = inner;
+          if (node.store.data.ohter.ohterList == "&") {
+            node.store.data.ohter.ohterList += name;
+          } else {
+            node.store.data.ohter.ohterList += "&" + name;
+          }
+        }
         return (
           <>
             <Modal title="节点添加属性" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
@@ -443,7 +455,7 @@ export default function Index(props) {
           <>
             <Modal title="修改节点属性" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
               {listItems}
-              <Button id="addAttribute" size="large" onClick={addAttribute}>新增节点</Button >
+              <Button id="addAttribute" size="large" onClick={addAttribute}>新增节点属性</Button >
               <Button id="deleteAttribute" size="large" onClick={deleteNode}>删除节点</Button >
             </Modal>
           </>
@@ -460,78 +472,60 @@ export default function Index(props) {
 
 
     //操作属性主方法
-    // function contextmenu(node) {
+    function contextmenu(node) {
 
-    //   initnode = node;
+      initnode = node;
 
-    //   const Attribute = () => {
-    //     const [isModalVisible, setIsModalVisible] = useState(true);
+      const Attribute = () => {
+        const [isModalVisible, setIsModalVisible] = useState(true);
 
-    //     const addAttribute = () => {
-    //       AddAttribute(initnode);
-    //     }
+        const addAttribute = () => {
+          AddAttribute(initnode);
+        }
 
-    //     const updateAttribute = () => {
-    //       UpdataAttribute(initnode);
-    //     }
+        const updateAttribute = () => {
+          UpdataAttribute(initnode);
+        }
 
-    //     const deleteAttribute = () => {
-    //       DeleteAttribute(initnode);
-    //     }
+        const deleteAttribute = () => {
+          DeleteAttribute(initnode);
+        }
 
-    //     const deleteNode = () => {
-    //       initnode.addTools(
-    //         [
-    //           {
-    //             name: 'button-remove',
-    //           },
-    //         ],
-    //       )
-    //       setIsModalVisible(false);
-    //     }
+        const deleteNode = () => {
+          initnode.addTools(
+            [
+              {
+                name: 'button-remove',
+              },
+            ],
+          )
+          setIsModalVisible(false);
+        }
 
-    //     const handleCancel = () => {
-    //       setIsModalVisible(false);
-    //     };
-    //     return (
-    //       <>
-    //         <Modal title="Attribute" visible={isModalVisible} onOk={handleCancel} onCancel={handleCancel}>
-    //           <Button id="addAttribute" size="large" onClick={addAttribute}>新增节点</Button >
-    //           <br />
-    //           <Button id="updateAttribute" size="large" onClick={updateAttribute}>修改节点</Button >
-    //           <br />
-    //           <Button id="deleteAttribute" size="large" onClick={deleteAttribute}>删除节点属性</Button >
-    //           <br />
-    //           <Button id="deleteAttribute" size="large" onClick={deleteNode}>删除节点</Button >
-    //         </Modal>
-    //       </>
-    //     );
-    //   }
-    //   ReactDOM.render(
-    //     <>
-    //       <Attribute />
-    //     </>,
-    //     document.getElementsByClassName("add-attribute")[0]
-    //   );
-    // }
-
-    //为画布中节点添加属性
-    function addNode(name, inner, node) {
-      node.store.data.ohter[name] = inner;
-      if (node.store.data.ohter.ohterList == "&") {
-        node.store.data.ohter.ohterList += name;
-      } else {
-        node.store.data.ohter.ohterList += "&" + name;
+        const handleCancel = () => {
+          setIsModalVisible(false);
+        };
+        return (
+          <>
+            <Modal title="Attribute" visible={isModalVisible} onOk={handleCancel} onCancel={handleCancel}>
+              <Button id="addAttribute" size="large" onClick={addAttribute}>新增节点</Button >
+              <br />
+              <Button id="updateAttribute" size="large" onClick={updateAttribute}>修改节点</Button >
+              <br />
+              <Button id="deleteAttribute" size="large" onClick={deleteAttribute}>删除节点属性</Button >
+              <br />
+              <Button id="deleteAttribute" size="large" onClick={deleteNode}>删除节点</Button >
+            </Modal>
+          </>
+        );
       }
+      ReactDOM.render(
+        <>
+          <Attribute />
+        </>,
+        document.getElementsByClassName("add-attribute")[0]
+      );
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -684,9 +678,9 @@ export default function Index(props) {
     var edges = [];
     var nodes = [];
     var name = document.getElementById("graphname").value;
-    if (name == '') {
+    var display = document.getElementById("graphname").style.display;
+    if(display == 'none'){//图谱更新
       name = $('#lang').val();
-    }
 
     var data = graph.current.toJSON().cells;
     for (var i = 0; i < data.length; i++) {
@@ -739,6 +733,62 @@ export default function Index(props) {
     })
     graph.current.fromJSON([]);
     // console.log(datas);
+    }else{//图谱创建
+      if (name == '') {
+      alert( "请输入图谱的名称！")
+    }
+    //创建新图谱
+    var data = graph.current.toJSON().cells;
+    for (var i = 0; i < data.length; i++) {
+      //边
+      if (data[i].shape == 'edge') {
+        var edge = {
+          "source": data[i].source.cell,
+          "target": data[i].target.cell,
+        };
+        if (data[i].labels != undefined) {
+          edge.type = data[i].labels[0].attrs.label.text;
+        }
+        edges.push(edge);
+      }
+      //节点
+      else {
+        //纯粹节点，无附加属性
+        var node = {
+          "comment": data[i].attrs.text.text.replace(/\n/g, ""),
+          "name": data[i].id,
+        }
+        //非纯粹节点，具有附加属性
+        if (data[i].ohter.ohterList != "&") {
+          var list = data[i].ohter.ohterList.split('&');
+          for (var ohter in list) {
+            node[list[ohter]] = data[i].ohter[list[ohter]];
+          }
+        }
+        nodes.push(node);
+      }
+    }
+    var datas = {
+      "label": [
+        { "labelName": name }
+      ],
+      "nodes": nodes,
+      "links": edges,
+    }
+
+    $.ajax({
+      type: "Post",//请求方式
+      url: "action",//地址，就是json文件的请求路径
+      data: { "action": "creatLabel", "label": JSON.stringify(datas) },
+      dataType: "json",//数据类型可以为 text xml json  script  jsonp
+      // contentType: "application/json; charset=utf-8",
+      async: false,
+      success: function (result) {
+        // console.log(result);
+      }
+    })
+    graph.current.fromJSON([]);
+    }
   }
 
   return <div id="container" ref={drop}></div>
