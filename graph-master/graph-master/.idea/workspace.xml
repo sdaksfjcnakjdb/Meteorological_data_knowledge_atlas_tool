@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="2a82fb8c-fa35-4609-aeb0-1055d465d643" name="Default Changelist" comment="graph">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbstar/graph/controller/GraphController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbstar/graph/controller/GraphController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/xbstar/graph/controller/GraphController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/xbstar/graph/controller/GraphController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/drawl.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/drawl.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/graph.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/graph.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../MMD/hearken.ui.reactV2.0-master/hearken.ui.reactv2.0/component/base/tool/KGEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../MMD/hearken.ui.reactV2.0-master/hearken.ui.reactv2.0/component/base/tool/KGEditor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../MMD/hearken.ui.reactV2.0-master/hearken.ui.reactv2.0/component/base/tool/Tool.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../MMD/hearken.ui.reactV2.0-master/hearken.ui.reactv2.0/component/base/tool/Tool.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../neo4j/neo4j/.idea/artifacts/demo1_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../neo4j/neo4j/.idea/artifacts/demo1_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../neo4j/neo4j/target/classes/com/sunsheen/neo4j_demo1/dao/Neo4jDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../neo4j/neo4j/target/classes/com/sunsheen/neo4j_demo1/dao/Neo4jDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../neo4j/neo4j/target/demo1-1.0-SNAPSHOT/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../../neo4j/neo4j/target/demo1-1.0-SNAPSHOT/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../neo4j/neo4j/target/demo1-1.0-SNAPSHOT/WEB-INF/classes/com/sunsheen/neo4j_demo1/dao/Neo4jDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../neo4j/neo4j/target/demo1-1.0-SNAPSHOT/WEB-INF/classes/com/sunsheen/neo4j_demo1/dao/Neo4jDao.class" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
-    <ignored path="$PROJECT_DIR$/target/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,49 +19,6 @@
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/graph.ftl">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="521">
-              <caret line="89" column="12" selection-start-line="89" selection-start-column="12" selection-end-line="89" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/drawl.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="132" column="55" selection-start-line="132" selection-start-column="55" selection-end-line="132" selection-end-column="55" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/xbstar/graph/GraphApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/xbstar/graph/controller/GraphController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -87,7 +46,7 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -154,6 +113,7 @@
     <option name="width" value="1386" />
     <option name="height" value="728" />
   </component>
+  <component name="ProjectId" id="265EspT1Q4W3ynjhQDYgGBwVNkU" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -268,6 +228,10 @@
       </pane>
     </panes>
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="GO_FMT" value="true" />
@@ -302,18 +266,6 @@
       <recent name="C:\IdeaProject\graph\src\main\resources\static" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager">
     <configuration name="GraphApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="graph" />
@@ -323,6 +275,7 @@
       </method>
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>C:\Users\Simon\AppData\Roaming\Subversion</configuration>
   </component>
@@ -344,6 +297,7 @@
       <workItem from="1569220571854" duration="97300000" />
       <workItem from="1569566067888" duration="2527000" />
       <workItem from="1569719511402" duration="7829000" />
+      <workItem from="1646705258183" duration="35000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1568278292180</created>
@@ -476,7 +430,7 @@
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
@@ -600,14 +554,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/maven/maven-repository/com/alibaba/fastjson/1.2.58/fastjson-1.2.58.jar!/com/alibaba/fastjson/JSON.class">
+    <entry file="jar://$PROJECT_DIR$/../../../../../../maven/maven-repository/com/alibaba/fastjson/1.2.58/fastjson-1.2.58.jar!/com/alibaba/fastjson/JSON.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="145">
           <caret line="62" column="11" selection-start-line="62" selection-start-column="11" selection-end-line="62" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/maven/maven-repository/com/alibaba/fastjson/1.2.58/fastjson-1.2.58.jar!/com/alibaba/fastjson/JSONObject.class">
+    <entry file="jar://$PROJECT_DIR$/../../../../../../maven/maven-repository/com/alibaba/fastjson/1.2.58/fastjson-1.2.58.jar!/com/alibaba/fastjson/JSONObject.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-83">
           <caret line="39" column="11" selection-start-line="39" selection-start-column="11" selection-end-line="39" selection-end-column="11" />

@@ -38,6 +38,7 @@ export default function Index(props) {
         ohter: {
           ohterList: "",
         },
+        style: "add",
         className: item.component.NodeName,
         attrs: {
           body: {
@@ -265,6 +266,9 @@ export default function Index(props) {
 
         function addNode(name, inner, node) {
           node.store.data.ohter[name] = inner;
+          if (node.store.data.style == "") {
+            node.store.data.style = "updata";
+          }
           if (node.store.data.ohter.ohterList == "&") {
             node.store.data.ohter.ohterList += name;
           } else {
@@ -299,6 +303,9 @@ export default function Index(props) {
 
       const deleteAttribute = () => {
         delete initnode.store.data.ohter[name]
+        if (initnode.store.data.style == "") {
+          initnode.store.data.style = "updata";
+        }
         var lists = initnode.store.data.ohter.ohterList.split('&');
         var ohterList = "";
         try {
@@ -367,19 +374,22 @@ export default function Index(props) {
       );
     }
 
-//修改DOM
+    //修改DOM
     function UpdataNode(props) {
       const name = props.name;
       const inner = props.inner;
       var initnode = props.initnode;
 
-//修改节点属性
+      //修改节点属性
       function updataNode() {
         var name, inner;
         name = document.getElementById("name").innerHTML;
         inner = document.getElementById("updatanodeinner").value;
         initnode.store.data.ohter[name] = inner;
-        alert("节点属性"+name+"修改成功!");
+        if (initnode.store.data.style == "") {
+          initnode.store.data.style = "updata";
+        }
+        alert("节点属性" + name + "修改成功!");
       }
 
       //删除节点属性
@@ -399,7 +409,7 @@ export default function Index(props) {
       }
       return (
         <>
-          <div id={name}  class = "updatadiv">
+          <div id={name} class="updatadiv">
             <h3 className='updatanodename' id="name">{name}</h3>
             <Input placeholder={inner} id="updatanodeinner" />
             <Button onClick={updataNode}>修改属性</Button>
@@ -595,7 +605,10 @@ export default function Index(props) {
       height: 70,  // Number，可选，节点大小的 height 值
       label: name, // String，节点标签
       shape: 'ellipse',
-      ohter: ohter,
+      style: "add",
+      ohter: {
+        ohterList: "",
+      },
       className: name,
       attrs: {
         body: {
@@ -679,115 +692,129 @@ export default function Index(props) {
     var nodes = [];
     var name = document.getElementById("graphname").value;
     var display = document.getElementById("graphname").style.display;
-    if(display == 'none'){//图谱更新
+    if (display == 'none') {//图谱更新
       name = $('#lang').val();
 
-    var data = graph.current.toJSON().cells;
-    for (var i = 0; i < data.length; i++) {
-      //边
-      if (data[i].shape == 'edge') {
-        var edge = {
-          "source": data[i].source.cell,
-          "target": data[i].target.cell,
-        };
-        if (data[i].labels != undefined) {
-          edge.type = data[i].labels[0].attrs.label.text;
-        }
-        edges.push(edge);
-      }
-      //节点
-      else {
-        //纯粹节点，无附加属性
-        var node = {
-          "comment": data[i].attrs.text.text.replace(/\n/g, ""),
-          "name": data[i].id,
-        }
-        //非纯粹节点，具有附加属性
-        if (data[i].ohter.ohterList != "&") {
-          var list = data[i].ohter.ohterList.split('&');
-          for (var ohter in list) {
-            node[list[ohter]] = data[i].ohter[list[ohter]];
+      var data = graph.current.toJSON().cells;
+      for (var i = 0; i < data.length; i++) {
+        //边
+        var style = "";
+        try {
+          style = data[i].style;
+        } catch { }
+
+
+
+        if (style != "") {//即为新增或修改基类
+          if (data[i].shape == 'edge') {
+            var edge = {
+              "source": data[i].source.cell,
+              "target": data[i].target.cell,
+            };
+            if (data[i].labels != undefined) {
+              edge.type = data[i].labels[0].attrs.label.text;
+            }
+            edges.push(edge);
+          }
+          //节点
+          else {
+            //纯粹节点，无附加属性
+            var node = {
+              "comment": data[i].attrs.text.text.replace(/\n/g, ""),
+              "name": data[i].id,
+              "style": style,
+            }
+            //非纯粹节点，具有附加属性
+            if (data[i].ohter.ohterList != "&") {
+              var list = data[i].ohter.ohterList.split('&');
+              for (var ohter in list) {
+                node[list[ohter]] = data[i].ohter[list[ohter]];
+              }
+            }
+            nodes.push(node);
           }
         }
-        nodes.push(node);
-      }
-    }
-    var datas = {
-      "label": [
-        { "labelName": name }
-      ],
-      "nodes": nodes,
-      "links": edges,
-    }
 
-    $.ajax({
-      type: "Post",//请求方式
-      url: "action",//地址，就是json文件的请求路径
-      data: { "action": "updateLabel", "label": JSON.stringify(datas) },
-      dataType: "json",//数据类型可以为 text xml json  script  jsonp
-      // contentType: "application/json; charset=utf-8",
-      async: false,
-      success: function (result) {
-        // console.log(result);
+
       }
-    })
-    graph.current.fromJSON([]);
-    // console.log(datas);
-    }else{//图谱创建
+      var datas = {
+        "label": [
+          { "labelName": name }
+        ],
+        "nodes": nodes,
+        "links": edges,
+      }
+
+      $.ajax({
+        type: "Post",//请求方式
+        url: "action",//地址，就是json文件的请求路径
+        data: { "action": "updateLabel", "label": JSON.stringify(datas) },
+        dataType: "json",//数据类型可以为 text xml json  script  jsonp
+        // contentType: "application/json; charset=utf-8",
+        async: false,
+        success: function (result) {
+          // console.log(result);
+        }
+      })
+      graph.current.fromJSON([]);
+      // console.log(datas);
+
+
+    } else {//图谱创建
       if (name == '') {
-      alert( "请输入图谱的名称！")
-    }
-    //创建新图谱
-    var data = graph.current.toJSON().cells;
-    for (var i = 0; i < data.length; i++) {
-      //边
-      if (data[i].shape == 'edge') {
-        var edge = {
-          "source": data[i].source.cell,
-          "target": data[i].target.cell,
-        };
-        if (data[i].labels != undefined) {
-          edge.type = data[i].labels[0].attrs.label.text;
-        }
-        edges.push(edge);
+        alert("请输入图谱的名称！")
       }
-      //节点
-      else {
-        //纯粹节点，无附加属性
-        var node = {
-          "comment": data[i].attrs.text.text.replace(/\n/g, ""),
-          "name": data[i].id,
-        }
-        //非纯粹节点，具有附加属性
-        if (data[i].ohter.ohterList != "&") {
-          var list = data[i].ohter.ohterList.split('&');
-          for (var ohter in list) {
-            node[list[ohter]] = data[i].ohter[list[ohter]];
+      //创建新图谱
+      var data = graph.current.toJSON().cells;
+      for (var i = 0; i < data.length; i++) {
+        //边
+        if (data[i].shape == 'edge') {
+          var edge = {
+            "source": data[i].source.cell,
+            "target": data[i].target.cell,
+          };
+          if (data[i].labels != undefined) {
+            edge.type = data[i].labels[0].attrs.label.text;
           }
+          edges.push(edge);
         }
-        nodes.push(node);
+        //节点
+        else {
+          //纯粹节点，无附加属性
+          var node = {
+            "comment": data[i].attrs.text.text.replace(/\n/g, ""),
+            "name": data[i].id,
+          }
+          //非纯粹节点，具有附加属性
+          if (data[i].ohter.ohterList != "&") {
+            var list = data[i].ohter.ohterList.split('&');
+            for (var ohter in list) {
+              node[list[ohter]] = data[i].ohter[list[ohter]];
+            }
+          }
+          nodes.push(node);
+        }
       }
-    }
-    var datas = {
-      "label": [
-        { "labelName": name }
-      ],
-      "nodes": nodes,
-      "links": edges,
-    }
+      var datas = {
+        "label": [
+          { "labelName": name }
+        ],
+        "nodes": nodes,
+        "links": edges,
+      }
 
-    $.ajax({
-      type: "Post",//请求方式
-      url: "action",//地址，就是json文件的请求路径
-      data: { "action": "creatLabel", "label": JSON.stringify(datas) },
-      dataType: "json",//数据类型可以为 text xml json  script  jsonp
-      // contentType: "application/json; charset=utf-8",
-      async: false,
-      success: function (result) {
-        // console.log(result);
-      }
-    })
-    graph.current.fromJSON([]);
+      $.ajax({
+        type: "Post",//请求方式
+        url: "action",//地址，就是json文件的请求路径
+        data: { "action": "creatLabel", "label": JSON.stringify(datas) },
+        dataType: "json",//数据类型可以为 text xml json  script  jsonp
+        // contentType: "application/json; charset=utf-8",
+        async: false,
+        success: function (result) {
+          // console.log(result);
+        }
+      })
+      graph.current.fromJSON([]);
     }
   }
 

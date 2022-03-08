@@ -24,8 +24,14 @@ public  class Neo4jDao{
         Set<String> sets = node.keySet ();
         //动态生成语句，实现多属性注入
         String cypher="CREATE (n:"+labelName+"{";
+        Boolean first = true;
         for (String set:sets){
-            cypher += "',"+set+":'"+node.getString (set);
+            if(!first) {//非第一个
+                cypher += "'," + set + ":'" + node.getString (set);
+            }else{//第一个
+                cypher +=  set + ":'" + node.getString (set);
+                first = false;
+            }
         }
         cypher += "'})";
         //固定属性
@@ -55,8 +61,19 @@ public  class Neo4jDao{
         String cypher = "match(node{name:'";
         cypher += node.getString ("name");
         cypher +="'}) delete node";
+        try (Session session = DatabaseDao.driver.session()) {
+            StatementResult result = session.run(cypher);
+        }
     }
     //删除关系
+    public void deleteLink(String labelName, String source, String target){
+        String cypher = "MATCH (a: "+labelName+")-[rel]-(b:"+labelName+") WHERE a.name = '"+source+"' AND b.name = '"+target+"'   delete rel";
+//        try (Session session = DatabaseDao.driver.session()) {
+//            StatementResult result = session.run(cypher);
+//        }
+    }
+
+
 
     //根据name和depth查lable
     public JSONObject queryByNameAndDepth(String name, Integer depth,String label){

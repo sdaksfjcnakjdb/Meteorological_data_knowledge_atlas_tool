@@ -230,5 +230,43 @@ rect {
   width: 40%;
   height: 4%;
 }
+#addAttribute {
+  margin: 4%;
+  width: 40%;
+}
+#addAttribute:hover {
+  background-color: aqua;
+}
+#updateAttribute {
+  margin: 4%;
+  width: 50%;
+}
+#updateAttribute:hover {
+  background-color: #0f54a3;
+}
+#deleteAttribute {
+  margin: 4%;
+  width: 40%;
+}
+#deleteAttribute:hover {
+  background-color: red;
+}
+.Attribute {
+  width: 100vw;
+  height: 100vh;
+}
+#buttonDiv {
+  margin: 4%;
+}
+.updatanodename {
+  float: left;
+}
+#updatanodeinner {
+  width: 30%;
+  margin-right: 4%;
+}
+.updatadiv button {
+  margin-right: 4%;
+}
 
 /*# sourceMappingURL=base.css.map*/

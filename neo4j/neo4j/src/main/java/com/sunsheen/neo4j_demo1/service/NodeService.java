@@ -51,6 +51,7 @@ public class NodeService {
         while(it.hasNext()) {
             JSONObject link = (JSONObject)it.next();
             neo4jDao.creatLink(labelName, link.getString("source"), link.getString("type"), link.getString("target"));
+            neo4jDao.deleteLink (labelName,link.getString("source"),link.getString("target"));
         }
 
     }
@@ -58,11 +59,37 @@ public class NodeService {
     //=========================更新图谱=====================
     public void updateLabel(JSONObject label) {
         //删除整张图谱
+//        String labelName = label.getJSONArray("label").getJSONObject(0).getString("labelName");
+//        System.out.println("label "+labelName+"");
+//        neo4jDao.deleteLabel(labelName);
+//        System.out.println("delete label "+labelName+"success");
+//        //整张图谱保存
+//        creatLabel(label);
         String labelName = label.getJSONArray("label").getJSONObject(0).getString("labelName");
-        System.out.println("label "+labelName+"");
-        neo4jDao.deleteLabel(labelName);
-        System.out.println("delete label "+labelName+"success");
-        //整张图谱保存
-        creatLabel(label);
+        JSONArray nodes = label.getJSONArray("nodes");
+        JSONArray links = label.getJSONArray("links");
+        System.out.println ("******************************************************");
+        System.out.println(labelName);
+        System.out.println(nodes.toJSONString());
+        System.out.println(links.toJSONString());
+        Iterator it = nodes.iterator();
+        while(it.hasNext()) {
+            JSONObject node = (JSONObject)it.next();
+            //新增节点
+            if(node.getString ("style").equals ("add")) {
+                node.remove ("style");
+                neo4jDao.creatNode (labelName, node);
+            //修改节点
+            }else{
+                node.remove ("style");
+                neo4jDao.deleteNode (labelName, node);
+                neo4jDao.creatNode (labelName, node);
+            }
+        }
+        it = links.iterator();
+        while(it.hasNext()) {
+            JSONObject link = (JSONObject)it.next();
+            neo4jDao.creatLink(labelName, link.getString("source"), link.getString("type"), link.getString("target"));
+        }
     }
 }

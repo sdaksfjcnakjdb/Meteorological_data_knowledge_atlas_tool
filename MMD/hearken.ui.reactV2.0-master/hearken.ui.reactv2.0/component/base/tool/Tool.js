@@ -307,7 +307,7 @@ const Space = (props) => {
             <select id="lang"  onChange = {spaces} >
                 <option value="Md" >站点元数据</option>
                 <option value="Mdd">站点数据</option>
-                <option value="党政安全数据">党政安全数据</option>
+                <option value="党政空间安全数据">党政空间安全数据</option>
             </select>
         </>
     )
@@ -498,6 +498,10 @@ export default class Tool extends React.Component {
                     width: datas.nodes[i].size,
                     height: datas.nodes[i].size,
                     shape: 'circle',
+                    style: "", 
+                    ohter: {
+                        ohterList: "",
+                      },
                     neo4j: datas.nodes[i].neo4j,
                     attrs: {
                         body: {

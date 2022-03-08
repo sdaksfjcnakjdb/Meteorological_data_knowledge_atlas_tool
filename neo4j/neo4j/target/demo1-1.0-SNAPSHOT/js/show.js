@@ -6,7 +6,7 @@ var node = [];
 var edge = [];
 var nodeList=new Array();
 var colorGroup = new Array();
-var color = ["#DD7710", "#E05250", "#F4C51F", "#E64A79", "#7861A9", "#55B87F", "#3586C8", "#CB98A1"];
+var color = ["#DD7710", "#E05250", "#F4C51F", "#E64A79", "#7861A9", "#55B87F", "#3586C8", "#CB98A1","#fff143","#ff461f","#bce672","#003472"];
 // const graph = new G6.Graph({
 //     container: 'G6',
 //     width,
