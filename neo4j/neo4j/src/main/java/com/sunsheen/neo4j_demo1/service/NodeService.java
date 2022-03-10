@@ -68,6 +68,7 @@ public class NodeService {
         String labelName = label.getJSONArray("label").getJSONObject(0).getString("labelName");
         JSONArray nodes = label.getJSONArray("nodes");
         JSONArray links = label.getJSONArray("links");
+        JSONArray deleteNode = label.getJSONArray("delete");
         System.out.println ("******************************************************");
         System.out.println(labelName);
         System.out.println(nodes.toJSONString());
@@ -82,14 +83,20 @@ public class NodeService {
             //修改节点
             }else{
                 node.remove ("style");
-                neo4jDao.deleteNode (labelName, node);
-                neo4jDao.creatNode (labelName, node);
+                neo4jDao.updataNode (labelName, node);
             }
         }
+
         it = links.iterator();
         while(it.hasNext()) {
             JSONObject link = (JSONObject)it.next();
             neo4jDao.creatLink(labelName, link.getString("source"), link.getString("type"), link.getString("target"));
+        }
+
+        it = deleteNode.iterator();
+        while(it.hasNext()) {
+            String name = (String)it.next();
+            neo4jDao.deleteNode (labelName,name);
         }
     }
 }

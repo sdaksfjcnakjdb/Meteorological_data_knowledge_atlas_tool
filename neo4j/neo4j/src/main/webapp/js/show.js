@@ -71,6 +71,13 @@ function longtext(text){
         return bk;
     }
 }
+
+function ohters(ohter){
+    delete ohter.name;
+    delete ohter.comment;
+    ohter.delete = [];
+    return ohter;
+}
 function find() {
     //console.log("qweqeqweq");
     node = [];
@@ -93,6 +100,8 @@ function find() {
         success: function (result) {//返回的参数就是 action里面所有的有get和set方法的参数
 
             for (var i = 0; i < result.nodes.length; i++) {
+                var ohter = result.nodes[i].properties;
+
                 node.push({
                     label: longtext(result.nodes[i].properties.comment),
                     id: result.nodes[i].caption + '',
@@ -102,6 +111,7 @@ function find() {
                             fill:"white",
                         },
                     },
+                    ohter:ohters(ohter),
                     style: {
                         fill: "#0cc",
                         stroke: '#0cc',

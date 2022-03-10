@@ -4,7 +4,7 @@ import { FileSearchOutlined } from '@ant-design/icons';
 import { useDrop } from 'react-dnd';
 import { grayScale } from '@antv/x6/lib/registry/filter/gray-scale';
 import { add } from 'lodash';
-import { func } from 'prop-types';
+import { func, Object } from 'prop-types';
 import { Drawer as AntdDrawer, Modal, Button as AntdButton, Input, List as AntdList, Typography, Pagination, Upload, Divider, Button } from 'antd';
 import { render } from 'less';
 
@@ -18,7 +18,19 @@ export default function Index(props) {
     init()
   }, [data])
 
+  function keys(obj) {
+    let lists = [];
+    for (var key in obj) {
+      lists.push(key);
+    }
+    return lists;
+  }
 
+  var Links = {
+    add:[],
+    updata:[],
+    delete:[],
+  }
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: "item",
     //松开鼠标放下
@@ -36,7 +48,7 @@ export default function Index(props) {
         label: item.component.NodeName, // String，节点标签
         shape: 'ellipse',
         ohter: {
-          ohterList: "",
+
         },
         style: "add",
         className: item.component.NodeName,
@@ -107,7 +119,7 @@ export default function Index(props) {
       history: {
         enabled: true,
       },
-
+      delete:[],
       history: true,
       connecting: {
         allowNode: true,
@@ -123,6 +135,11 @@ export default function Index(props) {
         visible: true, // 渲染网格背景 
       },
     });
+
+    //节点删除事件
+    graph.current.on('node:removed', ({ node }) => { 
+      graph.current.options.delete.push(node.id);
+    })
     let nodes = data.nodes.map(item => {
       return {
         ...item,
@@ -206,11 +223,7 @@ export default function Index(props) {
       var name = node.store.data.className;
       var id = node.store.data.id;
       var ohter = node.store.data.ohter;
-      if (ohter.ohterList == '&') {
-        lists = [];
-      } else {
-        var lists = ohter.ohterList.split('&');
-      }
+      let lists =keys(ohter);
       initnode = node;
       var addlist = document.createElement("div");
 
@@ -269,11 +282,6 @@ export default function Index(props) {
           if (node.store.data.style == "") {
             node.store.data.style = "updata";
           }
-          if (node.store.data.ohter.ohterList == "&") {
-            node.store.data.ohter.ohterList += name;
-          } else {
-            node.store.data.ohter.ohterList += "&" + name;
-          }
         }
         return (
           <>
@@ -306,16 +314,6 @@ export default function Index(props) {
         if (initnode.store.data.style == "") {
           initnode.store.data.style = "updata";
         }
-        var lists = initnode.store.data.ohter.ohterList.split('&');
-        var ohterList = "";
-        try {
-          var number = lists.indexOf(name);
-          lists.splice(number, number + 1);
-        } catch { }
-        lists.forEach(list => {
-          ohterList += list + "&";
-        });
-        initnode.store.data.ohter.ohterList = ohterList;
         document.getElementById(name).remove();
       }
       return (
@@ -333,11 +331,10 @@ export default function Index(props) {
 
       const Attribute = () => {
         const [isModalVisible, setIsModalVisible] = useState(true);
-
-        if (initnode.store.data.ohter.ohterList == "&") {
+        if (keys(initnode.store.data.ohter).length == 0) {
           lists = [];
         } else {
-          var lists = initnode.store.data.ohter.ohterList.split('&');
+          var lists = keys(initnode.store.data.ohter);
           var number = lists.indexOf('');
           try {
             lists.splice(number, number + 1);
@@ -374,7 +371,7 @@ export default function Index(props) {
       );
     }
 
-    //修改DOM
+    //修改、删除DOM
     function UpdataNode(props) {
       const name = props.name;
       const inner = props.inner;
@@ -394,17 +391,14 @@ export default function Index(props) {
 
       //删除节点属性
       const deleteAttribute = () => {
-        delete initnode.store.data.ohter[name]
-        var lists = initnode.store.data.ohter.ohterList.split('&');
-        var ohterList = "";
-        try {
-          var number = lists.indexOf(name);
-          lists.splice(number, number + 1);
-        } catch { }
-        lists.forEach(list => {
-          ohterList += list + "&";
-        });
-        initnode.store.data.ohter.ohterList = ohterList;
+        delete initnode.store.data.ohter[name];
+        if(initnode.store.data.ohter.delete){
+        initnode.store.data.ohter.delete.push(name);
+        }
+        var lists = keys(initnode.store.data.ohter);
+        if (initnode.store.data.style == "") {
+          initnode.store.data.style = "updata";
+        }
         document.getElementById(name).remove();
       }
       return (
@@ -425,15 +419,11 @@ export default function Index(props) {
       const Attribute = () => {
         const [isModalVisible, setIsModalVisible] = useState(true);
 
-        if (initnode.store.data.ohter.ohterList == "&") {
-          lists = [];
-        } else {
-          var lists = initnode.store.data.ohter.ohterList.split('&');
-          var number = lists.indexOf('');
+          var lists = keys(initnode.store.data.ohter);
           try {
+            var number = lists.indexOf("delete");
             lists.splice(number, number + 1);
           } catch { }
-        }
         var listItems = lists.map((list) =>
           <UpdataNode name={list} initnode={initnode} onClick={handleOk} inner={initnode.store.data.ohter[list]} id="UpdataNode" />
         );
@@ -606,9 +596,7 @@ export default function Index(props) {
       label: name, // String，节点标签
       shape: 'ellipse',
       style: "add",
-      ohter: {
-        ohterList: "",
-      },
+      ohter: {},
       className: name,
       attrs: {
         body: {
@@ -696,6 +684,7 @@ export default function Index(props) {
       name = $('#lang').val();
 
       var data = graph.current.toJSON().cells;
+      var deleteNode = graph.current.options.delete;
       for (var i = 0; i < data.length; i++) {
         //边
         var style = "";
@@ -725,8 +714,8 @@ export default function Index(props) {
               "style": style,
             }
             //非纯粹节点，具有附加属性
-            if (data[i].ohter.ohterList != "&") {
-              var list = data[i].ohter.ohterList.split('&');
+            var list = keys(data[i].ohter);
+            if (keys(data[i].ohter).length > 0) {
               for (var ohter in list) {
                 node[list[ohter]] = data[i].ohter[list[ohter]];
               }
@@ -743,6 +732,7 @@ export default function Index(props) {
         ],
         "nodes": nodes,
         "links": edges,
+        "delete":deleteNode,
       }
 
       $.ajax({
@@ -786,12 +776,12 @@ export default function Index(props) {
             "name": data[i].id,
           }
           //非纯粹节点，具有附加属性
-          if (data[i].ohter.ohterList != "&") {
-            var list = data[i].ohter.ohterList.split('&');
-            for (var ohter in list) {
-              node[list[ohter]] = data[i].ohter[list[ohter]];
+          var list = keys(data[i].ohter);
+            if (keys(data[i].ohter).length > 0) {
+              for (var ohter in list) {
+                node[list[ohter]] = data[i].ohter[list[ohter]];
+              }
             }
-          }
           nodes.push(node);
         }
       }

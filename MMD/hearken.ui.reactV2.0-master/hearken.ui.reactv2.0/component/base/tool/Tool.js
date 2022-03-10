@@ -159,6 +159,7 @@ const Creat = (props) => {
         // $("input[name='depth']")[0].value = "";
         document.getElementsByClassName('graphname')[0].style.setProperty('display', 'block')//显示提交
         document.getElementById('addNode').style.setProperty('display', 'inline-block')// 显示新增节点
+        document.getElementById('graphname').style.setProperty('display', 'block')//显示输入框
         document.getElementById('graphCreat').style.setProperty('background-color', 'aqua');
         document.getElementById('graphFind').style.setProperty('background-color', '#ffff');
         document.getElementById('graphChange').style.setProperty('background-color', '#ffff');
@@ -499,9 +500,7 @@ export default class Tool extends React.Component {
                     height: datas.nodes[i].size,
                     shape: 'circle',
                     style: "", 
-                    ohter: {
-                        ohterList: "",
-                      },
+                    ohter:datas.nodes[i].ohter,
                     neo4j: datas.nodes[i].neo4j,
                     attrs: {
                         body: {

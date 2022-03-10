@@ -1,5 +1,6 @@
 package com.sunsheen.neo4j_demo1.dao;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sunsheen.neo4j_demo1.utils.JsonUtil;
 import org.neo4j.driver.v1.*;
@@ -57,10 +58,10 @@ public  class Neo4jDao{
 
 
     //删除节点
-    public void deleteNode(String labelName, JSONObject node) {
-        String cypher = "match(node{name:'";
-        cypher += node.getString ("name");
-        cypher +="'}) delete node";
+    public void deleteNode(String labername, String name) {
+        String cypher = "match(n:"+labername+"{name:'";
+        cypher += name;
+        cypher +="'}) -[r]-() DELETE n,r";
         try (Session session = DatabaseDao.driver.session()) {
             StatementResult result = session.run(cypher);
         }
@@ -71,6 +72,61 @@ public  class Neo4jDao{
 //        try (Session session = DatabaseDao.driver.session()) {
 //            StatementResult result = session.run(cypher);
 //        }
+    }
+
+
+    //修改节点
+    public void updataNode(String labelName, JSONObject node){
+        System.out.println ("node:"+node);
+        Set<String> sets = node.keySet ();
+        //动态生成语句，实现多属性注入
+        JSONArray delete  = node.getJSONArray ("delete");
+        sets.remove ("delete");
+        //删除原本附加属性
+        String cypher0="match (n:"+labelName+"{";
+        cypher0 +=   "name:'" + node.getString ("name");
+        cypher0 += "'}) remove ";
+        boolean first = true;
+        for (int i = 0;i<delete.size();i++){
+                if (!first) {//非第一个
+                    cypher0 += "',n." + delete.getString (i);
+                } else {//第一个
+                    cypher0 += "n." + delete.getString (i);
+                    first = false;
+                }
+        }
+
+        cypher0+="'";
+        try {
+            try (Session session = DatabaseDao.driver.session()) {
+                StatementResult result = session.run(cypher0);
+            }
+        }
+        catch (Exception e){
+
+        }
+
+
+        //注入附加属性
+        String cypher="match (n:"+labelName+"{";
+        cypher +=   "name:'" + node.getString ("name");
+        cypher += "'}) set ";
+        first = true;
+        for (String set:sets){
+            if(!first) {//非第一个
+                cypher += "',n." + set + "='" + node.getString (set);
+            }else{//第一个
+                cypher +=  "n."+set + "='" + node.getString (set);
+                first = false;
+            }
+        }
+        try {
+            try (Session session = DatabaseDao.driver.session ()) {
+                StatementResult result = session.run (cypher);
+            }
+        }catch(Exception e){
+
+        }
     }
 
 
