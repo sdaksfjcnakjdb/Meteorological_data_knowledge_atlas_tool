@@ -68,11 +68,14 @@ public class NodeService {
         String labelName = label.getJSONArray("label").getJSONObject(0).getString("labelName");
         JSONArray nodes = label.getJSONArray("nodes");
         JSONArray links = label.getJSONArray("links");
-        JSONArray deleteNode = label.getJSONArray("delete");
+        JSONArray deleteNode = label.getJSONArray("deleteNode");
+        JSONArray deleteLink = label.getJSONArray("deleteLink");
         System.out.println ("******************************************************");
         System.out.println(labelName);
         System.out.println(nodes.toJSONString());
         System.out.println(links.toJSONString());
+
+        //节点的新增修改
         Iterator it = nodes.iterator();
         while(it.hasNext()) {
             JSONObject node = (JSONObject)it.next();
@@ -86,17 +89,33 @@ public class NodeService {
                 neo4jDao.updataNode (labelName, node);
             }
         }
-
-        it = links.iterator();
-        while(it.hasNext()) {
-            JSONObject link = (JSONObject)it.next();
-            neo4jDao.creatLink(labelName, link.getString("source"), link.getString("type"), link.getString("target"));
-        }
-
+        //节点的删除
         it = deleteNode.iterator();
         while(it.hasNext()) {
             String name = (String)it.next();
             neo4jDao.deleteNode (labelName,name);
         }
+
+
+        //关系的增加删除修改
+        it = links.iterator();
+        while(it.hasNext()) {
+            JSONObject link = (JSONObject)it.next();
+            System.out.println (link.get ("style"));
+            if (link.get ("style").equals ("add")) {//节点新增
+                neo4jDao.creatLink (labelName, link.getString ("source"), link.getString ("type"), link.getString ("target"));
+            }
+            else if(link.get ("style").equals ("update")){
+                neo4jDao.updataLink (labelName, link.getString ("source"), link.getString ("type"), link.getString ("target"));
+            }
+        }
+
+        //关系的删除
+        it = deleteLink.iterator();
+        while(it.hasNext()) {
+            JSONObject link = (JSONObject)it.next();
+            neo4jDao.deleteLink (labelName,link.getString("source"),link.getString ("target"));
+        }
+
     }
 }

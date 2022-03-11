@@ -26,11 +26,6 @@ export default function Index(props) {
     return lists;
   }
 
-  var Links = {
-    add:[],
-    updata:[],
-    delete:[],
-  }
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: "item",
     //松开鼠标放下
@@ -119,7 +114,8 @@ export default function Index(props) {
       history: {
         enabled: true,
       },
-      delete:[],
+      deleteNode: [],
+      deleteLink: [],
       history: true,
       connecting: {
         allowNode: true,
@@ -137,9 +133,39 @@ export default function Index(props) {
     });
 
     //节点删除事件
-    graph.current.on('node:removed', ({ node }) => { 
-      graph.current.options.delete.push(node.id);
+    graph.current.on('node:removed', ({ node }) => {
+      graph.current.options.deleteNode.push(node.id);
     })
+
+    //边删除事件
+    graph.current.on('edge:removed', ({ edge }) => {
+      graph.current.options.deleteLink.push({
+        source: edge.store.data.source.cell,
+        target: edge.store.data.target.cell,
+      });
+    })
+
+
+    //新增
+    graph.current.on('edge:added', ({ edge }) => {
+
+      if(edge.store.data.target.cell == undefined){//新增关系
+         edge.store.data.style = "add";
+    }
+    })
+
+
+    //修改
+    graph.current.on('edge:changed', ({ edge }) => {
+        if(edge.store.data.style){
+        }
+        else{
+          edge.store.data.style = "update";
+        }
+    })
+
+
+    graph.current
     let nodes = data.nodes.map(item => {
       return {
         ...item,
@@ -223,7 +249,7 @@ export default function Index(props) {
       var name = node.store.data.className;
       var id = node.store.data.id;
       var ohter = node.store.data.ohter;
-      let lists =keys(ohter);
+      let lists = keys(ohter);
       initnode = node;
       var addlist = document.createElement("div");
 
@@ -392,8 +418,8 @@ export default function Index(props) {
       //删除节点属性
       const deleteAttribute = () => {
         delete initnode.store.data.ohter[name];
-        if(initnode.store.data.ohter.delete){
-        initnode.store.data.ohter.delete.push(name);
+        if (initnode.store.data.ohter.delete) {
+          initnode.store.data.ohter.delete.push(name);
         }
         var lists = keys(initnode.store.data.ohter);
         if (initnode.store.data.style == "") {
@@ -419,11 +445,11 @@ export default function Index(props) {
       const Attribute = () => {
         const [isModalVisible, setIsModalVisible] = useState(true);
 
-          var lists = keys(initnode.store.data.ohter);
-          try {
-            var number = lists.indexOf("delete");
-            lists.splice(number, number + 1);
-          } catch { }
+        var lists = keys(initnode.store.data.ohter);
+        try {
+          var number = lists.indexOf("delete");
+          lists.splice(number, number + 1);
+        } catch { }
         var listItems = lists.map((list) =>
           <UpdataNode name={list} initnode={initnode} onClick={handleOk} inner={initnode.store.data.ohter[list]} id="UpdataNode" />
         );
@@ -684,7 +710,7 @@ export default function Index(props) {
       name = $('#lang').val();
 
       var data = graph.current.toJSON().cells;
-      var deleteNode = graph.current.options.delete;
+      var deleteNode = graph.current.options.deleteNode;
       for (var i = 0; i < data.length; i++) {
         //边
         var style = "";
@@ -693,12 +719,15 @@ export default function Index(props) {
         } catch { }
 
 
-
-        if (style != "") {//即为新增或修改基类
+    //即为新增或修改基类
+        if (style != "" && style != undefined) {
+          //边
           if (data[i].shape == 'edge') {
+            console.log(style);
             var edge = {
               "source": data[i].source.cell,
               "target": data[i].target.cell,
+              "style":style,
             };
             if (data[i].labels != undefined) {
               edge.type = data[i].labels[0].attrs.label.text;
@@ -732,7 +761,7 @@ export default function Index(props) {
         ],
         "nodes": nodes,
         "links": edges,
-        "delete":deleteNode,
+        "deleteNode": deleteNode,
       }
 
       $.ajax({
@@ -777,11 +806,11 @@ export default function Index(props) {
           }
           //非纯粹节点，具有附加属性
           var list = keys(data[i].ohter);
-            if (keys(data[i].ohter).length > 0) {
-              for (var ohter in list) {
-                node[list[ohter]] = data[i].ohter[list[ohter]];
-              }
+          if (keys(data[i].ohter).length > 0) {
+            for (var ohter in list) {
+              node[list[ohter]] = data[i].ohter[list[ohter]];
             }
+          }
           nodes.push(node);
         }
       }

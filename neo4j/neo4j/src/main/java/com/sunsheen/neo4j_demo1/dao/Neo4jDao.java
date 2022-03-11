@@ -69,11 +69,17 @@ public  class Neo4jDao{
     //删除关系
     public void deleteLink(String labelName, String source, String target){
         String cypher = "MATCH (a: "+labelName+")-[rel]-(b:"+labelName+") WHERE a.name = '"+source+"' AND b.name = '"+target+"'   delete rel";
-//        try (Session session = DatabaseDao.driver.session()) {
-//            StatementResult result = session.run(cypher);
-//        }
+        try (Session session = DatabaseDao.driver.session()) {
+            StatementResult result = session.run(cypher);
+        }
     }
 
+
+    //修改关系
+    public void updataLink(String labelName, String source, String type, String target){
+        deleteLink (labelName,source,target);
+        creatLink (labelName,source,type,target);
+    }
 
     //修改节点
     public void updataNode(String labelName, JSONObject node){
