@@ -98,7 +98,6 @@ function find() {
         dataType: "json",//数据类型可以为 text xml json  script  jsonp
         async: false,
         success: function (result) {//返回的参数就是 action里面所有的有get和set方法的参数
-
             for (var i = 0; i < result.nodes.length; i++) {
                 var ohter = result.nodes[i].properties;
 
@@ -248,7 +247,17 @@ function find() {
             }
 
             G6.Util.processParallelEdges(edge);
-            ReactDOM.render(React.createElement(base.Tool,{data:{node:node,edge:edge}}),document.getElementById("editor"))//获得数据
+            ReactDOM.render(
+                React.createElement(
+                    base.Tool,
+                    {
+                        data:{
+                            node:node,
+                            edge:edge
+                        }
+                    }
+                    ),
+                document.getElementById("editor"))//获得数据
             // gra();
         }
     });

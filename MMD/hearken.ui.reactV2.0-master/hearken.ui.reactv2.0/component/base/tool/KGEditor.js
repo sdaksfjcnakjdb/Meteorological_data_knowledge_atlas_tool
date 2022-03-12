@@ -192,7 +192,8 @@ export default function Index(props) {
         // ],
       }
     })
-    // console.log("nodes");
+    console.log("nodes");
+    console.log("edges");
     graph.current.addNodes(nodes)
     graph.current.addEdges(edges)
     // this.setState({ graph: graph })

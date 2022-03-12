@@ -5,7 +5,7 @@ import { Drawer as AntdDrawer, Modal, Button as AntdButton, Input, List as AntdL
 import KGEditor from './KGEditor.js'
 import DragList from './DragList'
 import {Select} from 'antd';
-import { LineOutlined, LeftOutlined, PlusCircleOutlined, CopyOutlined, FolderOpenOutlined, SaveOutlined, ToolOutlined, UploadOutlined } from '@ant-design/icons';
+import { LineOutlined, LeftOutlined, PlusCircleOutlined, CopyOutlined, FolderOpenOutlined, SaveOutlined, ToolOutlined, UploadOutlined,LoadingOutlined } from '@ant-design/icons';
 import { DndProvider, useDrag } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import "./Tool.css"
@@ -121,7 +121,6 @@ const Database = () => {
         </>
     );
 };
-
 
 const Find = () => {
     const find = () => {
@@ -313,6 +312,19 @@ const Space = (props) => {
         </>
     )
 }
+
+const Loading =  ()=>{
+    return (
+        <>
+        <div id ='loading'>
+        <LoadingOutlined  style={{fontSize: '56px', color: '#08c'}}/>
+        <h1>加载中</h1>
+        </div>
+        </>
+    )
+}
+
+
 export default class Tool extends React.Component {
 
     constructor(props) {
@@ -437,6 +449,9 @@ export default class Tool extends React.Component {
     }
 
     graph(node, edge) {
+        document.getElementsByClassName("loading")[0].style.setProperty("display","block")
+
+
         var _this = this
         _this.ref.current.cleangraph();
         // console.log(node, edge);
@@ -526,7 +541,9 @@ export default class Tool extends React.Component {
             // console.log("data.edges");
             // console.log(data.edges);
             this.setState({ data: data })
+            document.getElementsByClassName("loading")[0].style.setProperty("display","none")
         })
+        
     }
 
     nodeRemove(nodesId) {
@@ -735,6 +752,7 @@ export default class Tool extends React.Component {
                     <Change click={this.change.bind(this)} />
                     <AddNode click={this.addNode.bind(this)} />
                     <Database />
+                    <Loading/>
                 </div>
                 <div class="graphname">
                     <Input placeholder="输入图谱名称" id="graphname" />

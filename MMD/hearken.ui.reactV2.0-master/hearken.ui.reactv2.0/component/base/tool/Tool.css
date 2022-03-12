@@ -301,3 +301,17 @@ rect{
 .updatadiv button{
     margin-right: 4%;
 }
+
+#loading{
+    position: absolute;
+    width: 100%;
+    margin-top: 20%;
+    z-index: 100;
+    display: none;
+}
+
+
+#loading h1{
+    fontSize: 56px;
+    color: #08c;
+}
