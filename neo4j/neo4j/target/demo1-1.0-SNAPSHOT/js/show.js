@@ -79,6 +79,7 @@ function ohters(ohter){
     return ohter;
 }
 function find() {
+    document.getElementById("loading").style.setProperty("display","block")
     //console.log("qweqeqweq");
     node = [];
     edge = [];
@@ -104,6 +105,7 @@ function find() {
                 node.push({
                     label: longtext(result.nodes[i].properties.comment),
                     id: result.nodes[i].caption + '',
+                    className : longtext(result.nodes[i].properties.comment),
                     size: 70,
                     attrs:{
                         label:{

@@ -51,7 +51,6 @@ public class NodeService {
         while(it.hasNext()) {
             JSONObject link = (JSONObject)it.next();
             neo4jDao.creatLink(labelName, link.getString("source"), link.getString("type"), link.getString("target"));
-            neo4jDao.deleteLink (labelName,link.getString("source"),link.getString("target"));
         }
 
     }

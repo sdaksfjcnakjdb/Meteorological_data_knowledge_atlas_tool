@@ -260,6 +260,7 @@ rect {
 }
 .updatanodename {
   float: left;
+  width: 202px;
 }
 #updatanodeinner {
   width: 30%;
@@ -267,6 +268,21 @@ rect {
 }
 .updatadiv button {
   margin-right: 4%;
+}
+#loading {
+  position: absolute;
+  width: 100%;
+  margin-top: 20%;
+  z-index: 100;
+  display: none;
+}
+#loading h1 {
+  fontSize: 80px;
+  color: #08c;
+}
+.updatanodenamemain {
+  float: left;
+  width: 207px;
 }
 
 /*# sourceMappingURL=base.css.map*/

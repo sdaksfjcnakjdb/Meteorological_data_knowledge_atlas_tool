@@ -149,19 +149,19 @@ export default function Index(props) {
     //新增
     graph.current.on('edge:added', ({ edge }) => {
 
-      if(edge.store.data.target.cell == undefined){//新增关系
-         edge.store.data.style = "add";
-    }
+      if (edge.store.data.target.cell == undefined) {//新增关系
+        edge.store.data.style = "add";
+      }
     })
 
 
     //修改
     graph.current.on('edge:changed', ({ edge }) => {
-        if(edge.store.data.style){
-        }
-        else{
-          edge.store.data.style = "update";
-        }
+      if (edge.store.data.style) {
+      }
+      else {
+        edge.store.data.style = "update";
+      }
     })
 
 
@@ -259,7 +259,7 @@ export default function Index(props) {
         const lists = props.lists;
         try {
           var number = lists.indexOf('');
-          lists.splice(number, number + 1);
+          lists.splice(number, 1);
         } catch { }
         const listItems = lists.map((list) =>
           <p> {list}: {ohter[list]}</p>
@@ -364,7 +364,7 @@ export default function Index(props) {
           var lists = keys(initnode.store.data.ohter);
           var number = lists.indexOf('');
           try {
-            lists.splice(number, number + 1);
+            lists.splice(number, 1);
           } catch { }
         }
         var listItems = lists.map((list) =>
@@ -398,6 +398,31 @@ export default function Index(props) {
       );
     }
 
+    //显示节点主属性
+    function UpdataNodemain(props) {
+      const name = props.name;
+      const inner = props.inner;
+      var initnode = props.initnode;
+
+      //修改节点属性
+      function updataNode() {
+        var inner = document.getElementById("updatanodeinner").value;
+        initnode.store.data[name] = inner;
+        if (initnode.store.data.style == "") {
+          initnode.store.data.style = "updata";
+        }
+        alert("节点属性" + name + "修改成功!");
+      }
+      return (
+        <>
+          <div id={name} class="updatadiv">
+            <h3 class='updatanodenamemain' id="name">{name}</h3>
+            <h3 class="" >{inner}</h3>
+          </div>
+        </>
+      );
+    }
+
     //修改、删除DOM
     function UpdataNode(props) {
       const name = props.name;
@@ -428,15 +453,24 @@ export default function Index(props) {
         }
         document.getElementById(name).remove();
       }
+      if (name == "delete") {
+        back = <></>
+      }
+      else {
+        var back =
+          <>
+            <div id={name} class="updatadiv">
+              <h3 className='updatanodename' id="name">{name}</h3>
+              <Input placeholder={inner} id="updatanodeinner" />
+              <Button onClick={updataNode}>修改属性</Button>
+              <Button danger onClick={deleteAttribute}>删除属性</Button>
+            </div>
+          </>
+      }
+
       return (
-        <>
-          <div id={name} class="updatadiv">
-            <h3 className='updatanodename' id="name">{name}</h3>
-            <Input placeholder={inner} id="updatanodeinner" />
-            <Button onClick={updataNode}>修改属性</Button>
-            <Button danger onClick={deleteAttribute}>删除属性</Button>
-          </div>
-        </>
+        <>{back}</>
+        
       );
     }
 
@@ -447,10 +481,6 @@ export default function Index(props) {
         const [isModalVisible, setIsModalVisible] = useState(true);
 
         var lists = keys(initnode.store.data.ohter);
-        try {
-          var number = lists.indexOf("delete");
-          lists.splice(number, number + 1);
-        } catch { }
         var listItems = lists.map((list) =>
           <UpdataNode name={list} initnode={initnode} onClick={handleOk} inner={initnode.store.data.ohter[list]} id="UpdataNode" />
         );
@@ -480,7 +510,9 @@ export default function Index(props) {
         }
         return (
           <>
-            <Modal title="修改节点属性" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="修改节点属性" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={700}>
+              <UpdataNodemain name="编号" initnode={initnode} inner={initnode.store.data.id}></UpdataNodemain>
+              <hr></hr>
               {listItems}
               <Button id="addAttribute" size="large" onClick={addAttribute}>新增节点属性</Button >
               <Button id="deleteAttribute" size="large" onClick={deleteNode}>删除节点</Button >
@@ -720,7 +752,7 @@ export default function Index(props) {
         } catch { }
 
 
-    //即为新增或修改基类
+        //即为新增或修改基类
         if (style != "" && style != undefined) {
           //边
           if (data[i].shape == 'edge') {
@@ -728,7 +760,7 @@ export default function Index(props) {
             var edge = {
               "source": data[i].source.cell,
               "target": data[i].target.cell,
-              "style":style,
+              "style": style,
             };
             if (data[i].labels != undefined) {
               edge.type = data[i].labels[0].attrs.label.text;

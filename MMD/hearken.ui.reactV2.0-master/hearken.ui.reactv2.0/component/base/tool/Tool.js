@@ -317,8 +317,8 @@ const Loading =  ()=>{
     return (
         <>
         <div id ='loading'>
-        <LoadingOutlined  style={{fontSize: '56px', color: '#08c'}}/>
-        <h1>加载中</h1>
+        <LoadingOutlined  style={{fontSize: '80px', color: '#08c'}}/>
+        <h1>loading...</h1>
         </div>
         </>
     )
@@ -449,7 +449,7 @@ export default class Tool extends React.Component {
     }
 
     graph(node, edge) {
-        document.getElementsByClassName("loading")[0].style.setProperty("display","block")
+        document.getElementById("loading").style.setProperty("display","block")
 
 
         var _this = this
@@ -541,7 +541,7 @@ export default class Tool extends React.Component {
             // console.log("data.edges");
             // console.log(data.edges);
             this.setState({ data: data })
-            document.getElementsByClassName("loading")[0].style.setProperty("display","none")
+            document.getElementById("loading").style.setProperty("display","none")
         })
         
     }

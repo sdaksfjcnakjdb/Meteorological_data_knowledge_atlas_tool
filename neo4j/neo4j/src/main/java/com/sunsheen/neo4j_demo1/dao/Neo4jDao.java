@@ -126,6 +126,7 @@ public  class Neo4jDao{
                 first = false;
             }
         }
+        cypher+="'";
         try {
             try (Session session = DatabaseDao.driver.session ()) {
                 StatementResult result = session.run (cypher);

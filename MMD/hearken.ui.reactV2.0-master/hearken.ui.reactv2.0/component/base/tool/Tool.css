@@ -291,6 +291,7 @@ rect{
 }
 .updatanodename{
     float: left;
+    width: 202px;
 }
 
 #updatanodeinner{
@@ -312,6 +313,11 @@ rect{
 
 
 #loading h1{
-    fontSize: 56px;
+    fontSize: 80px;
     color: #08c;
+}
+
+.updatanodenamemain{
+    float: left;
+    width: 207px;
 }
