@@ -250,6 +250,59 @@ const Change = (props) => {
     );
 };
 
+const Association = (props) => {
+    const { click } = props
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    var results = '';
+    const showModal = () => {
+        if (document.getElementsByClassName('x6-graph-svg-stage')[0].children.length == 0 &&
+            document.getElementsByClassName('x6-graph-svg-stage')[document.getElementsByClassName('x6-graph-svg-stage').length - 1].children.length == 0) {//画布中无数据
+            alert('请先查询，再进行自动关联');
+        } else {
+            setIsModalVisible(true);
+        }
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+        click(results)
+        document.getElementsByClassName('top')[0].style.setProperty('display', 'none');//隐藏查询
+
+        document.getElementsByClassName('graphname')[0].style.setProperty('display', 'block')//显示提交
+        document.getElementById('graphname').style.setProperty('display', 'none')//隐藏输入框
+        document.getElementById('addNode').style.setProperty('display', 'inline-block')// 显示新增节点
+        document.getElementById('graphChange').style.setProperty('background-color', 'aqua');
+        document.getElementById('graphCreat').style.setProperty('background-color', '#ffff');
+        document.getElementById('graphFind').style.setProperty('background-color', '#ffff');
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const getTextInfo = (file) => {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = (result) => {
+            // console.log("result");
+            // console.log(result);
+            results = result;
+        }
+        return false;
+    }
+    return (
+        <>
+            <AntdButton type="primary" onClick={showModal} id='graphChange'>
+                自动关联
+            </AntdButton>
+            <Modal title="选择文件" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <Upload action="" accept="text/plain" beforeUpload={getTextInfo} showUploadList={false}>
+                    <Button icon={<UploadOutlined />}>导入文件</Button>
+                </Upload>
+            </Modal>
+        </>
+    );
+};
 
 const AddNode = (props) => {
     const { click } = props;
@@ -648,6 +701,61 @@ export default class Tool extends React.Component {
         this.setState({ dataListState: true })
     }
 
+    //自动关联
+    Association(result){
+        var _this = this
+        if (result == '') {
+            alert("请选择文件！");
+        } else {
+            // $.ajax({
+            //     type: "get",//请求方式
+            //     url: "js/csvvv.csv",//地址，就是json文件的请求路径
+            //     dataType: "text",//数据类型可以为 text xml json  script  jsonp
+            //     scriptCharset: 'utf-8',
+            //     async: false,
+            //     success: function (result) {//返回的参数就是 action里面所有的有get和set方法的参数
+            var datas = result.srcElement.result.split('\r\n');
+            var lines = [];//编号
+            var lineT = [];//名称
+            dataList.length = 0;
+            dataListdelect.length = 0;
+            var datadelet = [];//存储id
+            var olddata = _this.ref.current.consoleTojson();//图谱中的数据
+            // console.log(olddata);
+            for (var i = 1; i < datas.length; i++) {
+                var line = datas[i].split(',');
+                lines.push(line[0]);
+                lineT.push(line[1]);
+                // console.log(line);
+                if (olddata[0].indexOf(line[0]) == -1) {
+                    dataList.push({
+                        Type: 'add',
+                        ID: line[0],
+                        Group: line[0],
+                        NodeName: line[1],
+                    })
+                }
+            }
+            //  删除数据
+            // for (var i = 0; i < olddata[0].length; i++) {
+            //     if (lines.indexOf(olddata[0][i]) == -1) {
+            //         datadelet.push(olddata[0][i]);
+            //         dataListdelect.push({
+            //             Type: 'delete',
+            //             ID: olddata[0][i],
+            //             Group: olddata[0][i],
+            //             NodeName: olddata[1][i],
+            //         })
+            //     }
+            // }
+            // console.log(dataList);
+            // console.log(_this.ref.current.consoleTojson())
+            //     }
+            // }) 
+            this.setState({ dataListState: true })
+        }
+    }
+
 
     addNode(ohter,name, id) {
         var _this = this
@@ -748,6 +856,7 @@ export default class Tool extends React.Component {
                     </select> */}
                     <Space space = {this.switchSpace.bind(this)}/>
                     <Find />
+                    <Association click={this.Association.bind(this)}/>
                     <Creat click={this.creatNew.bind(this)} />
                     <Change click={this.change.bind(this)} />
                     <AddNode click={this.addNode.bind(this)} />
