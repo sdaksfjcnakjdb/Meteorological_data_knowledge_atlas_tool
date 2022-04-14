@@ -4,12 +4,15 @@ import { Drawer as AntdDrawer, Modal, Button as AntdButton, Input, List as AntdL
 // import { PlusSquareTwoTone, CloseSquareTwoTone } from '@ant-design/icons'
 import KGEditor from './KGEditor.js'
 import DragList from './DragList'
-import {Select} from 'antd';
-import { LineOutlined, LeftOutlined, PlusCircleOutlined, CopyOutlined, FolderOpenOutlined, SaveOutlined, ToolOutlined, UploadOutlined,LoadingOutlined } from '@ant-design/icons';
+import { Select ,PlusOutlined,Space} from 'antd';
+import { LineOutlined, LeftOutlined, PlusCircleOutlined, CopyOutlined, FolderOpenOutlined, SaveOutlined, ToolOutlined, UploadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { DndProvider, useDrag } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import "./Tool.css"
 import G6 from '@antv/g6';
+
+
+
 
 // import { rectangleToPathData } from '@antv/x6/lib/util/dom/path';
 
@@ -150,7 +153,11 @@ const Creat = (props) => {
 
     const handleOk = () => {
         setIsModalVisible(false);
+        try{
         click(results)
+        }catch(err){
+
+        }
         document.getElementsByClassName('top')[0].style.setProperty('display', 'none');//隐藏查询
 
         //暂时注释掉，切换到neo4j时取消注释！
@@ -325,7 +332,7 @@ const AddNode = (props) => {
             alert("请输入节点信息！");
         } else {
             setIsModalVisible(false);
-            click(ohter,name, id);
+            click(ohter, name, id);
         }
     }
     const handleCancel = () => {
@@ -346,33 +353,83 @@ const AddNode = (props) => {
     );
 };
 
-const Space = (props) => {
+const Spaces = (props) => {
     const { space } = props;
     const { Option } = Select;
-    const spaces =() =>{
+    const spaces = () => {
         //暂时注释掉，切换到neo4j时取消注释！
         // $("input[name='name']")[0].value = "";
         // $("input[name='depth']")[0].value = "";
         space();
     }
-    return (
+    var out =
         <>
-            <select id="lang"  onChange = {spaces} >
+
+            <select id="lang" onChange={spaces} >
                 <option value="Md" >站点元数据</option>
                 <option value="Mdd">站点数据</option>
-                <option value="党政空间安全数据">党政空间安全数据</option>
+                <option value="党政空间安全数据">党政空间安全数据</option> 
             </select>
         </>
-    )
+    return (
+        out
+    ) 
 }
 
-const Loading =  ()=>{
+
+
+const App = () => {
+    const [items, setItems] = useState(['Md', 'Mdd','党政空间安全数据']);
+    const [name, setName] = useState('');
+
+    const onNameChange = event => {
+        setName(event.target.value);
+    };
+
+    const addItem = e => {
+        e.preventDefault();
+        setItems([...items, name || `New item ${index++}`]);
+        setName('');
+    };
+
+    return (
+        <Select id = "lang"
+            placeholder="选择标签"
+            dropdownRender={menu => (
+                <>
+                    {menu}
+                    <Divider style={{ margin: '8px 0' ,fontSize:'20px'}} />
+                    <Space align="center" style={{ padding: '0 8px 4px' }}>
+                    <Input placeholder="Please enter item"  id='spaceadd' value={name} onChange={onNameChange} />
+                    <Typography.Link onClick={addItem} style={{ whiteSpace: 'nowrap' }}>
+                                Add item
+                        </Typography.Link>
+                    </Space>
+                    
+                    {/* <Divider style={{ margin: '8px 0' }} />
+                    <Space align="center" style={{ padding: '0 8px 4px' }}>
+                        <Input placeholder="Please enter item" value={name} onChange={onNameChange} />
+                        <Typography.Link onClick={addItem} style={{ whiteSpace: 'nowrap' }}>
+                            <PlusOutlined /> Add item
+                        </Typography.Link>
+                    </Space> */}
+                </>
+            )}
+        >
+            {items.map(item => (
+                <Option key={item}>{item}</Option>
+            ))}
+        </Select>
+    );
+}
+
+const Loading = () => {
     return (
         <>
-        <div id ='loading'>
-        <LoadingOutlined  style={{fontSize: '80px', color: '#08c'}}/>
-        <h1>loading...</h1>
-        </div>
+            <div id='loading'>
+                <LoadingOutlined style={{ fontSize: '80px', color: '#08c' }} />
+                <h1>loading...</h1>
+            </div>
         </>
     )
 }
@@ -502,7 +559,7 @@ export default class Tool extends React.Component {
     }
 
     graph(node, edge) {
-        document.getElementById("loading").style.setProperty("display","block")
+        document.getElementById("loading").style.setProperty("display", "block")
 
 
         var _this = this
@@ -567,8 +624,8 @@ export default class Tool extends React.Component {
                     width: datas.nodes[i].size,
                     height: datas.nodes[i].size,
                     shape: 'circle',
-                    style: "", 
-                    ohter:datas.nodes[i].ohter,
+                    style: "",
+                    ohter: datas.nodes[i].ohter,
                     neo4j: datas.nodes[i].neo4j,
                     attrs: {
                         body: {
@@ -594,9 +651,9 @@ export default class Tool extends React.Component {
             // console.log("data.edges");
             // console.log(data.edges);
             this.setState({ data: data })
-            document.getElementById("loading").style.setProperty("display","none")
+            document.getElementById("loading").style.setProperty("display", "none")
         })
-        
+
     }
 
     nodeRemove(nodesId) {
@@ -702,7 +759,7 @@ export default class Tool extends React.Component {
     }
 
     //自动关联
-    Association(result){
+    Association(result) {
         var _this = this
         if (result == '') {
             alert("请选择文件！");
@@ -757,10 +814,10 @@ export default class Tool extends React.Component {
     }
 
 
-    addNode(ohter,name, id) {
+    addNode(ohter, name, id) {
         var _this = this
 
-        _this.ref.current.addNode(ohter,name, id);
+        _this.ref.current.addNode(ohter, name, id);
 
 
     }
@@ -849,19 +906,20 @@ export default class Tool extends React.Component {
                 <div class="topTitle" >
                     <img src="js/log.png" class="img"></img>
                     <p class="title"><text class="text">气象数据图谱构建工具</text></p>
-                    
+
                     {/* <select id="lang" onSearch={this.switchSpace.bind(this)}>
                         <option value="Md" >站点元数据</option>
                         <option value="Mdd">站点数据</option>
                     </select> */}
-                    <Space space = {this.switchSpace.bind(this)}/>
+                    <App></App>
+                    {/* <Spaces space={this.switchSpace.bind(this)} /> */}
                     <Find />
-                    <Association click={this.Association.bind(this)}/>
+                    <Association click={this.Association.bind(this)} />
                     <Creat click={this.creatNew.bind(this)} />
                     <Change click={this.change.bind(this)} />
                     <AddNode click={this.addNode.bind(this)} />
                     <Database />
-                    <Loading/>
+                    <Loading />
                 </div>
                 <div class="graphname">
                     <Input placeholder="输入图谱名称" id="graphname" />

@@ -90,7 +90,7 @@ function find() {
     innode = [];
     var name = $("input[name='name']")[0].value;
     var depth = $("input[name='depth']")[0].value;
-    var label = $('#lang').val();
+    var label = document.getElementsByClassName("ant-select-selection-item")[0].innerHTML;
     console.log(label);
     $.ajax({
         type: "Post",//请求方式

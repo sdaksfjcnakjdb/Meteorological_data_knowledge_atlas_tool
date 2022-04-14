@@ -47,6 +47,14 @@ body{
     text-align: center;
     margin-top: 10px;
 }
+#selectgraphname{
+    margin-right: 50px;
+    height: 40px;
+    font-size: 25px;
+    width: 200px;
+    text-align: center;
+    margin-top: 10px;
+}
 .img{
     width: 45px;
     height: 45px;
@@ -320,4 +328,8 @@ rect{
 .updatanodenamemain{
     float: left;
     width: 207px;
+}
+#spaceadd{
+    width: 80px;
+    margin-top: 20px;
 }

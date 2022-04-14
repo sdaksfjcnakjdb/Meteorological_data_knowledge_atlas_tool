@@ -740,7 +740,7 @@ export default function Index(props) {
     var name = document.getElementById("graphname").value;
     var display = document.getElementById("graphname").style.display;
     if (display == 'none') {//图谱更新
-      name = $('#lang').val();
+      name = document.getElementsByClassName("ant-select-selection-item")[0].innerHTML;
 
       var data = graph.current.toJSON().cells;
       var deleteNode = graph.current.options.deleteNode;
