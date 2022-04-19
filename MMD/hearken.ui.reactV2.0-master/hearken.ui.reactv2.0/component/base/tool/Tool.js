@@ -4,7 +4,7 @@ import { Drawer as AntdDrawer, Modal, Button as AntdButton, Input, List as AntdL
 // import { PlusSquareTwoTone, CloseSquareTwoTone } from '@ant-design/icons'
 import KGEditor from './KGEditor.js'
 import DragList from './DragList'
-import { Select ,PlusOutlined,Space} from 'antd';
+import { Select, PlusOutlined, Space } from 'antd';
 import { LineOutlined, LeftOutlined, PlusCircleOutlined, CopyOutlined, FolderOpenOutlined, SaveOutlined, ToolOutlined, UploadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { DndProvider, useDrag } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -153,9 +153,9 @@ const Creat = (props) => {
 
     const handleOk = () => {
         setIsModalVisible(false);
-        try{
-        click(results)
-        }catch(err){
+        try {
+            click(results)
+        } catch (err) {
 
         }
         document.getElementsByClassName('top')[0].style.setProperty('display', 'none');//隐藏查询
@@ -368,18 +368,18 @@ const Spaces = (props) => {
             <select id="lang" onChange={spaces} >
                 <option value="Md" >站点元数据</option>
                 <option value="Mdd">站点数据</option>
-                <option value="党政空间安全数据">党政空间安全数据</option> 
+                <option value="党政空间安全数据">党政空间安全数据</option>
             </select>
         </>
     return (
         out
-    ) 
+    )
 }
 
 
 
 const App = () => {
-    const [items, setItems] = useState(['Md', 'Mdd','党政空间安全数据']);
+    const [items, setItems] = useState(['Md', 'Mdd', '党政空间安全数据']);
     const [name, setName] = useState('');
 
     const onNameChange = event => {
@@ -393,19 +393,19 @@ const App = () => {
     };
 
     return (
-        <Select id = "lang"
+        <Select id="lang"
             placeholder="选择标签"
             dropdownRender={menu => (
                 <>
                     {menu}
-                    <Divider style={{ margin: '8px 0' ,fontSize:'20px'}} />
+                    <Divider style={{ margin: '8px 0', fontSize: '20px' }} />
                     <Space align="center" style={{ padding: '0 8px 4px' }}>
-                    <Input placeholder="Please enter item"  id='spaceadd' value={name} onChange={onNameChange} />
-                    <Typography.Link onClick={addItem} style={{ whiteSpace: 'nowrap' }}>
-                                Add item
+                        <Input placeholder="Please enter item" id='spaceadd' value={name} onChange={onNameChange} />
+                        <Typography.Link onClick={addItem} style={{ whiteSpace: 'nowrap' }}>
+                            Add item
                         </Typography.Link>
                     </Space>
-                    
+
                     {/* <Divider style={{ margin: '8px 0' }} />
                     <Space align="center" style={{ padding: '0 8px 4px' }}>
                         <Input placeholder="Please enter item" value={name} onChange={onNameChange} />

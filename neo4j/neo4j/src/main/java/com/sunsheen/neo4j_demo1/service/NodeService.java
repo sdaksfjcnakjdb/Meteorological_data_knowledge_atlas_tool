@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sunsheen.neo4j_demo1.dao.Neo4jDao;
 import java.util.Iterator;
+import org.testng.annotations.Test;
 
 public class NodeService {
 
@@ -28,9 +29,17 @@ public class NodeService {
         return json;
     }
 
-    //图谱查询对比
+    //依据场景查询数据
+    public JSONObject selectLabelByScene(String scene,String elements ,String label){
+        JSONObject json = neo4jDao.selectLabelByScene( label, scene, elements);
+        return json;
+    }
 
-
+    @Test
+    public void test(){
+        JSONObject json = selectLabelByScene("C_COREMETA_ID","C_MDFILEID","Md");
+//        JSONObject jsonObject = defaultLabel();
+    }
     //=========================创建初始图谱=====================
     //整张图谱保存
     public void creatLabel(JSONObject label){

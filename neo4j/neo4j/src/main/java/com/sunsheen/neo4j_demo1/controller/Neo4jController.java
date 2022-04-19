@@ -25,7 +25,7 @@ public class Neo4jController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=utf-8");
-
+        System.out.println("action");
         String action = req.getParameter("action");
         System.out.println("================"+action);
         if(action.equals("creatLabel")) {//构造图谱
@@ -39,6 +39,7 @@ public class Neo4jController extends HttpServlet {
         }else if(action.equals("updateLabel")) {//更新图谱
             updateLabel(req, resp);
         }
+
     }
 
     protected void queryByNameAndDepth(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

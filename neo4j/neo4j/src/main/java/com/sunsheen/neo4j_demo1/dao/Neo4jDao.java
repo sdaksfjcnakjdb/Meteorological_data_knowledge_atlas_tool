@@ -192,6 +192,26 @@ public  class Neo4jDao{
         return json;
     }
 
+    //根据场景查询
+    public JSONObject selectLabelByScene(String label,String scene,String elements){
+        String cypher = "MATCH (n:"+label +
+                "{comment:'"+ scene+
+                "'})-[r]-(p:"+ label +
+                "{comment:'"+ elements +
+                "'})-[t]-(w:"+ label +
+                ") return {comment:w.comment,name:w.name,url:w.url} as nodes";
+
+
+        JSONObject json;
+        try (Session session = DatabaseDao.driver.session()) {
+            StatementResult result = session.run(cypher);
+            json = jsonUtil.resultToJsonObjectOnlyNode(result);
+            System.out.println(json);
+        }
+        System.out.println(json);
+        return json;
+    }
+
 
     //删除图谱
     public void deleteLabel(String labelName){

@@ -32,4 +32,15 @@ public class JsonUtil {
         json.put("links", links);
         return json;
     }
+    public JSONObject resultToJsonObjectOnlyNode(StatementResult result){
+        JSONObject json = new JSONObject();
+        JSONArray nodes = new JSONArray();
+        while (result.hasNext()) {
+            Record record = result.next();
+            nodes.add(record.get("nodes").asMap());
+        }
+        json.put("nodes", nodes);
+        System.out.println(json);
+        return json;
+    }
 }
