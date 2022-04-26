@@ -199,7 +199,7 @@ public  class Neo4jDao{
                 "'})-[r]-(p:"+ label +
                 "{comment:'"+ elements +
                 "'})-[t]-(w:"+ label +
-                ") return {comment:w.comment,name:w.name,url:w.url} as nodes";
+                ") return {comment:w.comment,name:w.name,url:w.url,URL:w.URL} as nodes";
 
 
         JSONObject json;

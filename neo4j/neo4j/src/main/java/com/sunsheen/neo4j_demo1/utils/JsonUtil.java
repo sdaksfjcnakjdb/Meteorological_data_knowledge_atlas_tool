@@ -41,7 +41,13 @@ public class JsonUtil {
         JSONArray nodes = new JSONArray();
         while (result.hasNext()) {
             Record record = result.next();
-            nodes.add(record.get("nodes").asMap());
+            Map map =  record.get("nodes").asMap();
+//            if(map.get("URL") != null){
+//                String URL = (String) map.get("URL");
+//                map.put("url",URL);
+//                map.put("URL",null);
+//            }
+            nodes.add(map);
         }
         json.put("nodes", nodes);
         return json;
