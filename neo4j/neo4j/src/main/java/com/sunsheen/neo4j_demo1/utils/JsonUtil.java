@@ -21,10 +21,14 @@ public class JsonUtil {
             Record record = result.next();
             Map<String, Object> src, tar;
             src = record.get("source").asMap();
-            if (set.add(src)) nodes.add(src);
+            if (set.add(src)) {
+                nodes.add(src);
+            }
 
             tar = record.get("target").asMap();
-            if (set.add(tar)) nodes.add(tar);
+            if (set.add(tar)) {
+                nodes.add(tar);
+            }
 
             links.add(record.get("links").asMap());
         }
@@ -40,7 +44,6 @@ public class JsonUtil {
             nodes.add(record.get("nodes").asMap());
         }
         json.put("nodes", nodes);
-        System.out.println(json);
         return json;
     }
 }

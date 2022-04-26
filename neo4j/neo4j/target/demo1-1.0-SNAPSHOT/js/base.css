@@ -65,7 +65,7 @@ body {
   background-color: #0f54a3;
   height: 60px;
   display: flex;
-  width: 1920px;
+  width: 100%;
 }
 #fileReadInput {
   background-color: #ffffff;
@@ -88,6 +88,7 @@ body {
 }
 .map #container {
   margin: 0 auto;
+  width: 100%;
 }
 .searchInput {
   padding: 15px;
@@ -295,6 +296,9 @@ rect {
 #spaceadd {
   width: 80px;
   margin-top: 20px;
+}
+.x6-graph-scroller-content {
+  width: 100%;
 }
 
 /*# sourceMappingURL=base.css.map*/

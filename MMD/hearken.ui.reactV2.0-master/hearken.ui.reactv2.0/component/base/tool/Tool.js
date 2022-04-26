@@ -914,7 +914,7 @@ export default class Tool extends React.Component {
                     <App></App>
                     {/* <Spaces space={this.switchSpace.bind(this)} /> */}
                     <Find />
-                    <Association click={this.Association.bind(this)} />
+                    {/* <Association click={this.Association.bind(this)} /> */}
                     <Creat click={this.creatNew.bind(this)} />
                     <Change click={this.change.bind(this)} />
                     <AddNode click={this.addNode.bind(this)} />

@@ -206,9 +206,7 @@ public  class Neo4jDao{
         try (Session session = DatabaseDao.driver.session()) {
             StatementResult result = session.run(cypher);
             json = jsonUtil.resultToJsonObjectOnlyNode(result);
-            System.out.println(json);
         }
-        System.out.println(json);
         return json;
     }
 
