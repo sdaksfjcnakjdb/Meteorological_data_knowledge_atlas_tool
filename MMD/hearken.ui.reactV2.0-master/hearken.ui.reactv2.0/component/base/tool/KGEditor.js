@@ -95,8 +95,8 @@ export default function Index(props) {
     var initnode;
     graph.current = new Graph({
       container: document.getElementById("container"),
-      width: 5660,//1920,
-      height: 2711,//937,
+      width: 1920,
+      height: 937,
       scroller: {//画布拖动
         enabled: true,
         pageVisible: true,

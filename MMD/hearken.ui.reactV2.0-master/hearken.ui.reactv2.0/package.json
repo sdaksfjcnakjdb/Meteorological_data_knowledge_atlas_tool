@@ -22,6 +22,7 @@
     "antd": "^4.11.2",
     "babel-loader": "^8.2.2",
     "braft-editor": "^2.3.9",
+    "caniuse-lite": "^1.0.30001332",
     "classnames": "^2.2.6",
     "create-react-class": "^15.7.0",
     "css-loader": "^3.4.2",
