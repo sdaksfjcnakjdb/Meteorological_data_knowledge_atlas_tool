@@ -17,6 +17,11 @@ public class NodeService {
         JSONObject json = neo4jDao.queryByNameAndDepth(name, depth,label);
         return json;
     }
+    //通过场景和要素搜索
+    public JSONObject queryByScene(String scene, String elements,String label){
+        JSONObject json = neo4jDao.queryByScene(scene, elements,label);
+        return json;
+    }
 
     //通过图谱名查询
     public JSONObject queryByLabel(String label){

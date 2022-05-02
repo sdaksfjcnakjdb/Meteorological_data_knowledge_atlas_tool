@@ -38,6 +38,8 @@ public class Neo4jController extends HttpServlet {
             defaultLabel(req, resp);
         }else if(action.equals("updateLabel")) {//更新图谱
             updateLabel(req, resp);
+        }else if(action.equals("queryByScene")) {//根据场景查询图谱
+            queryByScene(req, resp);
         }
 
     }
@@ -47,6 +49,15 @@ public class Neo4jController extends HttpServlet {
         String label = req.getParameter("label");
         Integer intdepth = Integer.parseInt(req.getParameter("depth"));
         JSONObject json = nodeService.queryByNameAndDepth(name, intdepth,label);
+        PrintWriter out = resp.getWriter();
+        System.out.println (json);
+        out.println(json);
+    }
+    protected void queryByScene(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String scene = req.getParameter("scene");
+        String label = req.getParameter("label");
+        String elements = req.getParameter("elements");
+        JSONObject json = nodeService.queryByScene(scene, elements,label);
         PrintWriter out = resp.getWriter();
         System.out.println (json);
         out.println(json);

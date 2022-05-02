@@ -109,6 +109,7 @@ body {
   padding-bottom: 35px;
   padding-left: 10px;
   margin-top: 10px;
+  border-radius: 10px;
 }
 .graphname {
   display: none;
@@ -128,6 +129,7 @@ body {
   margin-left: 120px;
   float: left;
   z-index: 100;
+  border-radius: 10px;
 }
 #graphname {
   position: absolute;
@@ -139,6 +141,7 @@ body {
   margin-top: 600px;
   float: left;
   z-index: 99;
+  border-radius: 35px;
 }
 rect {
   fill: #0000;
@@ -187,6 +190,7 @@ rect {
 }
 .ant-select-selector {
   height: 43px!important;
+  border-radius: 10px !important;
 }
 .ant-select-selection-item {
   margin-top: 4px!important;
@@ -269,9 +273,9 @@ rect {
 }
 .updatanodename {
   float: left;
-  width: 202px;
+  width: 190px;
 }
-#updatanodeinner {
+.updatanodeinner {
   width: 30%;
   margin-right: 4%;
 }
@@ -299,6 +303,17 @@ rect {
 }
 .x6-graph-scroller-content {
   width: 100%;
+}
+.ant-modal-content button {
+  border-radius: 10px;
+}
+.updatadivmain span {
+  width: 300px;
+  font-size: 20px;
+  padding-top: 10px;
+  height: 41px;
+  margin: 10px;
+  border-radius: 10px;
 }
 
 /*# sourceMappingURL=base.css.map*/

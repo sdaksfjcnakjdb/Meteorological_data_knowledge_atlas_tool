@@ -1,8 +1,0 @@
-.box>div{
-	width:90%;
-	display:inline-block;
-}
-.box>:not(div){
-	width:5%;
-	display:inline-block;
-}

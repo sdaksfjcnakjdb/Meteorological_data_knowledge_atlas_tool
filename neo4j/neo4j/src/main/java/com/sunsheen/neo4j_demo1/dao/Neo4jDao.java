@@ -158,6 +158,31 @@ public  class Neo4jDao{
 
     }
 
+    //根据场景和要素查lable
+    public JSONObject queryByScene(String scene, String elements,String label){
+        System.out.println(scene+"+++"+elements+"+++"+label);
+        String cypher="MATCH a=(n:"+label +
+                "{comment:'"+ scene+
+                "'})-[r]-(p:"+ label +
+                "{comment:'"+ elements +
+                "'})-[t]-(w:"+ label +
+                ") "+
+                "UNWIND relationships(a) AS rel WITH DISTINCT rel AS r " +
+                "WITH startNode(r) AS src,endNode(r) AS tar, type(r) AS t " +
+                "RETURN {id:id(src), caption:src.name,properties:properties(src)} AS source, " +
+                "{id:id(tar), caption:tar.name,properties:properties(tar)} AS target, " +
+                "{source:src.name, target:tar.name, type: t} as links";
+        System.out.println(cypher);
+        JSONObject json;
+        try (Session session = DatabaseDao.driver.session()) {
+            StatementResult result = session.run(cypher);
+            json = jsonUtil.resultToJsonObject(result);
+        }
+        System.out.println(json);
+        return json;
+
+    }
+
 
     //通过图谱名查询
     public JSONObject queryByLabel(String label){
@@ -200,8 +225,6 @@ public  class Neo4jDao{
                 "{comment:'"+ elements +
                 "'})-[t]-(w:"+ label +
                 ") return {comment:w.comment,name:w.name,url:w.url,URL:w.URL} as nodes";
-
-
         JSONObject json;
         try (Session session = DatabaseDao.driver.session()) {
             StatementResult result = session.run(cypher);

@@ -1,9 +1,0 @@
-.select {
-	:global {
-		
-		.ant-select-dropdown-menu-item {
-			height: 32px
-		}
-		
-	}
-}
